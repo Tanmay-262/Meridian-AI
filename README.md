@@ -135,4 +135,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Author
 
-Built by Tanmay as part of an ongoing AI engineering portfolio. Feedback welcome via Issues or [connect on LinkedIn](#).
+Built by Tanmay as part of an ongoing AI engineering portfolio. Feedback welcome via Issues or [connect on LinkedIn](#https://www.linkedin.com/in/tanmay-jain-0831062a2/).
