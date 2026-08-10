@@ -1,0 +1,43 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Python cache & virtualenvs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Uploads and Data volumes
+backend/uploads/
+postgres_data/
+redis_data/
+qdrant_data/
+
+# Environment configurations and keys (CRITICAL)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
+
+# OS Files
+.DS_Store
+Thumbs.db
