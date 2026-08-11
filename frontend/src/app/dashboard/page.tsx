@@ -125,7 +125,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="text-xs text-zinc-400">
-          Registered on: {new Date(user.created_at).toLocaleDateString()}
+          Registered on: {user.created_at ? new Date(user.created_at).toLocaleDateString() : "Just now"}
         </div>
       </section>
     </main>

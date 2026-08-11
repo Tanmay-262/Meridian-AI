@@ -16,6 +16,7 @@ export interface User {
   email: string;
   is_active: boolean;
   profile: Profile | null;
+  created_at?: string;
 }
 
 interface AuthContextType {

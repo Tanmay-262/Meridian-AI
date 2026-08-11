@@ -8,16 +8,16 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Meridian AI"
 
     # Database
-    DATABASE_URL: str
+    DATABASE_URL: str = "postgresql://postgres:postgres@db:5432/meridian"
 
     # Redis
-    REDIS_URL: str
+    REDIS_URL: str = "redis://redis:6379/0"
 
     # Qdrant Vector DB
-    QDRANT_URL: str
+    QDRANT_URL: str = "http://qdrant:6333"
 
     # Security & Auth
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = "dev_secret_key_change_me_in_production"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
 
