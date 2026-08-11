@@ -73,7 +73,7 @@ jobs:
       - name: Run Build
         run: |
           cd frontend
-          npm run build -- --no-lint
+          npm run build
         env:
           NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
           # Disable static optimization errors for dyn pages
