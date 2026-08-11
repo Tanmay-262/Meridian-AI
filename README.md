@@ -2,29 +2,17 @@
 
 **A personal AI operating system — one workspace instead of ten disconnected apps.**
 
-> 🚧 **Status:** Actively in development (V0.1). Foundation, AI chat with memory, and RAG are being built now. See [Roadmap](#roadmap) for what's shipped vs. planned.
-
 ---
 
-## The Problem
+## What's Built (V0.1 - Completed)
 
-Students and professionals rely on a dozen disconnected tools — Notion, Google Docs, ChatGPT, Gmail, GitHub, PDF readers, todo apps — none of which share context. Information gets copy-pasted between apps, tasks get lost, and every AI assistant starts from zero.
+- 🔐 **Custom Authentication**: User registration and login utilizing native `bcrypt` cryptography and type-safe SQLAlchemy schemas.
+- 📄 **Knowledge Hub**: Ingestion of PDFs and Word documents, split recursively into chunks and vectorized locally using a PyTorch encoder.
+- 💬 **LangGraph AI Chat**: Agent reasoning cycles built with LangGraph to invoke search tools, load memories, and write long-term user profile facts.
+- 🔍 **Local Semantic RAG**: Question answering grounded directly in your uploaded files, complete with similarity scores and sources.
+- 🐳 **Infrastructure**: Dockerized multi-service network backed by a GitHub Actions CI pipeline verifying builds and Pytest suites.
 
-Meridian is a unified workspace where specialized AI agents collaborate over **shared, persistent context** to help users manage knowledge, learning, and work — instead of behaving like isolated chatbots.
-
-## What's Built (V0.1)
-
-- 🔐 Authentication, user profiles, dashboard
-- 📄 Knowledge Hub — upload PDFs/DOCX, tag, organize, search
-- 💬 AI Chat with persistent long-term memory
-- 🔍 RAG — ask questions grounded in your own uploaded documents, with citations
-- 🐳 Dockerized, deployed, CI/CD via GitHub Actions
-
-V0.1 is intentionally scoped: one working vertical slice (foundation → knowledge → chat → RAG), built and deployed end-to-end, rather than a wide set of half-finished features. See [Roadmap](#roadmap) for what comes next.
-
-## Demo
-
-> 🎬 *Live demo link and walkthrough GIF go here once deployed.*
+---
 
 ## Tech Stack
 
@@ -32,32 +20,17 @@ V0.1 is intentionally scoped: one working vertical slice (foundation → knowled
 |---|---|
 | Frontend | Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui |
 | Backend | FastAPI, Python, SQLAlchemy, PostgreSQL, Redis |
-| AI / Agents | LangGraph, OpenAI / Gemini, Qdrant (vector DB), LiteLLM |
-| Infra | Docker, Docker Compose, GitHub Actions, Vercel, Railway |
-| Observability | Langfuse, Sentry |
+| AI / Agents | LangGraph, Google Gemini (via LiteLLM), Qdrant (vector DB) |
+| Embeddings | Local PyTorch Encoder (`all-MiniLM-L6-v2`) |
+| Infra | Docker, Docker Compose, GitHub Actions |
 
-## Architecture
+---
 
-```
-                    Frontend (Next.js)
-                          │
-                     FastAPI Backend
-                          │
-              ┌───────────────────────┐
-              │  AI Orchestration     │
-              │  (LangGraph)          │
-              └───────────────────────┘
-                          │
-              Chat Agent  │  RAG Pipeline
-                          │
-                 Qdrant (vectors)
-                 PostgreSQL (app data)
-                 Redis (cache/sessions)
-                          │
-                 OpenAI / Gemini API
-```
+## Architectural Decisions
 
-Future phases (Planner, Learning, Career, and Document agents) plug into this same orchestration layer — see [Roadmap](#roadmap).
+To understand the core design trade-offs made in this project (e.g. why we run embeddings locally on CPU, how we bypassed Gemini `thought_signature` validation errors, and why we explicitly accumulate state lists in LangGraph), please refer to the detailed **[Architectural Decision Log (DECISIONS.md)](file:///d:/Projects/Meridian-AI/DECISIONS.md)**.
+
+---
 
 ## Getting Started
 
@@ -65,52 +38,60 @@ Future phases (Planner, Learning, Career, and Document agents) plug into this sa
 - Docker & Docker Compose
 - Node.js 20+
 - Python 3.11+
-- An OpenAI or Gemini API key
+- A Google Gemini API key
 
-### Setup
+### Local Setup
 
-```bash
-# Clone the repo
-git clone https://github.com/<your-username>/meridian.git
-cd meridian
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/Tanmay-262/Meridian-AI.git
+   cd Meridian-AI
+   ```
 
-# Copy environment templates and fill in your keys
-cp backend/.env.example backend/.env
-cp frontend/.env.example frontend/.env.local
+2. **Configure environment credentials**:
+   * Copy the template:
+     ```bash
+     cp backend/.env.example backend/.env
+     ```
+   * Open `backend/.env` and paste your Gemini API key:
+     ```bash
+     GEMINI_API_KEY=your_gemini_api_key_here
+     ```
 
-# Start everything (Postgres, Redis, Qdrant, backend, frontend)
-docker compose up --build
-```
+3. **Start the platform**:
+   ```bash
+   docker compose up -d --build
+   ```
 
-- Frontend: `http://localhost:3000`
-- Backend API docs: `http://localhost:8000/docs`
+4. **Access the services**:
+   - Next.js Frontend: `http://localhost:3000`
+   - FastAPI Backend Swagger Docs: `http://localhost:8000/docs`
+   - Qdrant Vector Console: `http://localhost:6333/dashboard`
 
-### Running tests
-
-```bash
-# Backend
-cd backend && pytest
-
-# Frontend
-cd frontend && npm test
-```
+---
 
 ## Project Structure
 
 ```
 meridian/
-├── frontend/           # Next.js app (App Router)
+├── .github/workflows/   # CI/CD pipelines
 ├── backend/
 │   ├── app/
-│   │   ├── api/        # FastAPI routes
-│   │   ├── agents/      # LangGraph agent definitions
-│   │   ├── rag/          # Chunking, embedding, retrieval
-│   │   ├── models/      # SQLAlchemy models
-│   │   └── core/        # Config, auth, dependencies
-│   └── tests/
-├── docker-compose.yml
-└── .github/workflows/   # CI/CD
+│   │   ├── api/        # FastAPI routes & business logic
+│   │   ├── agent/      # LangGraph state machine & tool nodes
+│   │   ├── rag/        # PyTorch embedding & recursive text splitter
+│   │   ├── models/      # SQLAlchemy model schemas
+│   │   ├── database/    # Postgres sessions & Qdrant collections
+│   │   └── core/        # Security, JWT tokens, and settings configs
+│   ├── tests/          # Pytest API checks
+│   └── migrations/     # Alembic database migrations
+├── frontend/           # Next.js App Router workspace
+├── docker-compose.yml  # Multi-container orchestration config
+├── DECISIONS.md        # Architectural Decision Log (ADL)
+└── README.md           # Getting started & platform overview
 ```
+
+---
 
 ## Roadmap
 
@@ -118,21 +99,14 @@ Meridian AI is designed to grow from a student-focused MVP into a general-purpos
 
 | Version | Focus | Status |
 |---|---|---|
-| **V0.1** | Foundation, Knowledge Hub, AI Chat + Memory, basic RAG | 🚧 In progress |
+| **V0.1** | Foundation, Knowledge Hub, AI Chat + Memory, local RAG | ✅ Completed |
 | **V2** | Planner Agent — scheduling, conflict detection, auto-rescheduling | 📋 Planned |
 | **V3** | Learning Agent — auto-generated flashcards, quizzes, mind maps from uploaded material | 📋 Planned |
 | **V4** | Career Agent — resume analysis, ATS scoring, skill-gap analysis | 📋 Planned |
 | **V5** | Multi-agent orchestration — agents collaborating over shared memory | 📋 Planned |
-| **V6+** | Extends beyond students to working professionals, teams, and organizations | 💭 Vision |
 
-## Development Philosophy
-
-This is a learning-first project as much as a portfolio piece — every architectural decision (why LangGraph over raw function calling, why Qdrant, chunking strategy, memory design) is made deliberately and documented, not just implemented. Contributions of feedback and ideas are welcome via Issues.
+---
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
-## Author
-
-Built by Tanmay as part of an ongoing AI engineering portfolio. Feedback welcome via Issues or [connect on LinkedIn](#https://www.linkedin.com/in/tanmay-jain-0831062a2/).
