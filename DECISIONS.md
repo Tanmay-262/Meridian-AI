@@ -70,3 +70,19 @@ This document records the key architectural decisions, debug resolutions, and im
   - Pydantic settings will fail to load (throwing `ValidationError`) if a required property (like `DATABASE_URL` or `QDRANT_URL`) is missing.
   - In CI workflows, these variables are not loaded from any file.
   - **Resolution**: Adding standard fallback default URLs (e.g. `DATABASE_URL: str = "postgresql://postgres:postgres@db:5432/meridian"`) allows pytest to boot the backend and test routes cleanly in any environment without requiring configuration parameters.
+
+---
+
+## 7. Dynamic AI Scheduling: Iterative Priority-Based Conflict Shifting
+* **Decision**: Designing a deterministic, iterative schedule-shifting algorithm in Python (`auto_resolve_schedule_conflicts`) instead of relying on heavy constraint satisfaction programming (CSP) libraries.
+* **Rationale**: 
+  - **Simplicity**: Shifting lower-priority overlapping tasks to start exactly at the end time of conflicting higher-priority tasks is computationally simple, low latency, and highly readable.
+  - **Iterative Check**: Overlaps from shifted events are handled by recursively checking and re-sorting active items until a completely conflict-free weekly timeline is achieved, preventing endless loops using a safety limit (`max_iterations = 10`).
+
+---
+
+## 8. Test Isolation: Dependency Overrides & Mock Database Setup
+* **Decision**: Overriding `get_current_user` in pytest using FastAPI `dependency_overrides` and executing user inserts inside fixture transactions.
+* **Rationale**: 
+  - **OAuth2 Bypass**: The live app requires valid OAuth2 JWT tokens for scheduler operations. Overriding the dependency allows testing API routes directly using a mock `User` object.
+  - **Postgres Constraints**: The Postgres schema enforces non-nullable `hashed_password` constraints. Setting a mock hashed password in the fixture-injected test user allows schema validation checks to pass cleanly, maintaining database integrity.
