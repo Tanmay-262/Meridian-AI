@@ -41,3 +41,7 @@ frontend/.env
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Documentation and Pitch Deck (Private)
+DECISIONS.md
+PITCH_DECK.md
