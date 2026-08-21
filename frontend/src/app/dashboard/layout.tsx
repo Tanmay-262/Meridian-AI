@@ -37,6 +37,7 @@ export default function DashboardLayout({
     { name: "Knowledge Hub", path: "/dashboard/knowledge", icon: "📁" },
     { name: "AI Chat", path: "/dashboard/chat", icon: "💬" },
     { name: "RAG Q&A", path: "/dashboard/rag", icon: "🔍" },
+    { name: "Planner Calendar", path: "/dashboard/planner", icon: "📅" },
   ];
 
   const userDisplayName = user.profile?.full_name || user.email.split("@")[0];

@@ -6,6 +6,7 @@ from app.models.user import User, Profile
 from app.models.document import Document, DocumentTag
 from app.models.chat import ChatThread, ChatMessage
 from app.models.memory import LongTermMemory
+from app.models.planner import PlannerEvent
 
 __all__ = [
     "Base",
@@ -16,4 +17,5 @@ __all__ = [
     "ChatThread",
     "ChatMessage",
     "LongTermMemory",
+    "PlannerEvent",
 ]

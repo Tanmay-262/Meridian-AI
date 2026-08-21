@@ -9,6 +9,9 @@ from app.agent.tools import (
     search_knowledge_hub,
     get_long_term_memories,
     save_long_term_memory,
+    get_scheduled_events,
+    schedule_event,
+    auto_resolve_schedule_conflicts,
     AGENT_TOOLS_SPEC,
 )
 from app.models.memory import LongTermMemory
@@ -23,7 +26,9 @@ Guidelines:
 1. Address the user by their name ({user_name}) when appropriate.
 2. If the user asks questions about their uploaded files, documents, papers, or logs, you MUST use the 'search_knowledge_hub' tool to retrieve matching contexts.
 3. If the user shares new details about themselves (e.g., job details, hobbies, pet names, preferred technologies, or system configuration choices), immediately save them using 'save_long_term_memory' to remember them in future chats.
-4. Be concise, direct, and premium in your communication style.
+4. If the user wants to see their schedule, add/schedule an event, or resolve time overlaps, use the planner tools (`get_scheduled_events`, `schedule_event`, `auto_resolve_schedule_conflicts`).
+5. When scheduling, assume the current year is 2026.
+6. Be concise, direct, and premium in your communication style.
 """
 
 
@@ -202,6 +207,20 @@ def action_node(state: AgentState) -> Dict[str, Any]:
                 user_id=user_id,
                 db=db,
             )
+        elif tool_name == "get_scheduled_events":
+            result = get_scheduled_events(user_id=user_id, db=db)
+        elif tool_name == "schedule_event":
+            result = schedule_event(
+                title=tool_args.get("title", ""),
+                start_time=tool_args.get("start_time", ""),
+                end_time=tool_args.get("end_time", ""),
+                priority=tool_args.get("priority", "medium"),
+                description=tool_args.get("description"),
+                user_id=user_id,
+                db=db,
+            )
+        elif tool_name == "auto_resolve_schedule_conflicts":
+            result = auto_resolve_schedule_conflicts(user_id=user_id, db=db)
         else:
             result = f"Tool {tool_name} is not implemented."
 
