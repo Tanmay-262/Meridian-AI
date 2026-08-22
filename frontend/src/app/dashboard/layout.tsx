@@ -38,6 +38,7 @@ export default function DashboardLayout({
     { name: "AI Chat", path: "/dashboard/chat", icon: "💬" },
     { name: "RAG Q&A", path: "/dashboard/rag", icon: "🔍" },
     { name: "Planner Calendar", path: "/dashboard/planner", icon: "📅" },
+    { name: "Study Hub", path: "/dashboard/learning", icon: "🧠" },
   ];
 
   const userDisplayName = user.profile?.full_name || user.email.split("@")[0];

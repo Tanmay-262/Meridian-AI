@@ -7,6 +7,7 @@ from app.api.documents import router as documents_router
 from app.api.rag import router as rag_router
 from app.api.chat import router as chat_router
 from app.api.planner import router as planner_router
+from app.api.learning import router as learning_router
 from app.database.vector_db import init_vector_db
 
 
@@ -41,6 +42,7 @@ app.include_router(documents_router, prefix="/api/v1")
 app.include_router(rag_router, prefix="/api/v1")
 app.include_router(chat_router, prefix="/api/v1")
 app.include_router(planner_router, prefix="/api/v1")
+app.include_router(learning_router, prefix="/api/v1")
 
 
 

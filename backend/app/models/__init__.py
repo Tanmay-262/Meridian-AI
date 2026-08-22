@@ -7,6 +7,7 @@ from app.models.document import Document, DocumentTag
 from app.models.chat import ChatThread, ChatMessage
 from app.models.memory import LongTermMemory
 from app.models.planner import PlannerEvent
+from app.models.learning import Flashcard, QuizQuestion, MindMap
 
 __all__ = [
     "Base",
@@ -18,4 +19,7 @@ __all__ = [
     "ChatMessage",
     "LongTermMemory",
     "PlannerEvent",
+    "Flashcard",
+    "QuizQuestion",
+    "MindMap",
 ]

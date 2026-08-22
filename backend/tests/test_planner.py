@@ -10,19 +10,15 @@ from app.models.planner import PlannerEvent
 
 client = TestClient(app)
 
+from fastapi import Depends
+
 # Test User
 MOCK_USER_ID = 9999
-MOCK_USER = User(
-    id=MOCK_USER_ID,
-    email="testplanner@meridian.com",
-    is_active=True,
-    hashed_password="mock_hashed_password_ci",
-)
 
 
 # Override dependencies for test isolation
-def override_get_current_user():
-    return MOCK_USER
+def override_get_current_user(db: Session = Depends(get_db)):
+    return db.query(User).filter(User.id == MOCK_USER_ID).first()
 
 
 app.dependency_overrides[get_current_user] = override_get_current_user
@@ -34,20 +30,26 @@ def setup_and_teardown_db():
     db_gen = get_db()
     db = next(db_gen)
 
-    # Ensure mock user exists in DB
-    user_exists = db.query(User).filter(User.id == MOCK_USER_ID).first()
-    if not user_exists:
-        db.add(MOCK_USER)
-        db.commit()
-
-    # Clear any previous planner events
+    # Clear any previous planner events and test user
     db.query(PlannerEvent).filter(PlannerEvent.user_id == MOCK_USER_ID).delete()
+    db.query(User).filter(User.id == MOCK_USER_ID).delete()
+    db.commit()
+
+    # Add mock user
+    user = User(
+        id=MOCK_USER_ID,
+        email="testplanner@meridian.com",
+        is_active=True,
+        hashed_password="mock_hashed_password_ci",
+    )
+    db.add(user)
     db.commit()
 
     yield db
 
     # Teardown: Clean up
     db.query(PlannerEvent).filter(PlannerEvent.user_id == MOCK_USER_ID).delete()
+    db.query(User).filter(User.id == MOCK_USER_ID).delete()
     db.commit()
     db.close()
 
