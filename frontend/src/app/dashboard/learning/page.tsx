@@ -293,16 +293,12 @@ export default function LearningPage() {
                 className="h-64 w-full cursor-pointer relative group perspective"
               >
                 <div
-                  className={`h-full w-full rounded-2xl border transition-all duration-500 preserve-3d relative ${
+                  className={`h-full w-full transition-all duration-500 preserve-3d relative ${
                     isFlipped ? "rotate-y-180" : ""
-                  } ${
-                    isFlipped
-                      ? "bg-zinc-950/60 border-zinc-800/80"
-                      : "bg-gradient-to-tr from-indigo-950/30 to-purple-950/20 border-indigo-500/20"
                   }`}
                 >
                   {/* Front Side */}
-                  <div className="absolute inset-0 backface-hidden p-6 flex flex-col items-center justify-center text-center space-y-4">
+                  <div className="absolute inset-0 backface-hidden rounded-2xl border bg-gradient-to-tr from-indigo-950/30 to-purple-950/20 border-indigo-500/20 p-6 flex flex-col items-center justify-center text-center space-y-4">
                     <span className="text-[10px] uppercase font-bold text-indigo-400 tracking-wider">Question</span>
                     <p className="text-zinc-200 font-semibold text-sm leading-relaxed">
                       {flashcards[currentCardIndex].front}
@@ -313,7 +309,7 @@ export default function LearningPage() {
                   </div>
 
                   {/* Back Side */}
-                  <div className="absolute inset-0 backface-hidden rotate-y-180 p-6 flex flex-col items-center justify-center text-center space-y-4">
+                  <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border bg-zinc-950 border-zinc-800/80 p-6 flex flex-col items-center justify-center text-center space-y-4">
                     <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Answer</span>
                     <p className="text-zinc-300 text-xs leading-relaxed max-h-[160px] overflow-y-auto">
                       {flashcards[currentCardIndex].back}
