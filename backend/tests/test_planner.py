@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.main import app
 from app.api.deps import get_current_user, get_db
+from app.models.base import Base
 from app.models.user import User
 from app.models.planner import PlannerEvent
 
@@ -29,6 +30,7 @@ def setup_and_teardown_db():
     # Setup: get database session
     db_gen = get_db()
     db = next(db_gen)
+    Base.metadata.create_all(bind=db.get_bind())
 
     # Clear any previous planner events and test user
     db.query(PlannerEvent).filter(PlannerEvent.user_id == MOCK_USER_ID).delete()
