@@ -48,37 +48,37 @@ export default function RegisterPage() {
 
   if (isLoading || user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0b0f19] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-[#070b10] text-[#f0f5fa]">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-          <p className="text-slate-400 text-sm tracking-wide">Loading workspace...</p>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#45d6c5] border-t-transparent" />
+          <p className="text-[#71818c] text-sm tracking-wide">Loading workspace...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#0b0f19] px-4 py-12 sm:px-6 lg:px-8">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#070b10] px-4 py-12 sm:px-6 lg:px-8">
       {/* Background ambient mesh gradients */}
-      <div className="absolute top-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-teal-500/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-[#45d6c5]/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-[#5b9cff]/10 blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-md z-10">
         {/* Brand identity */}
         <div className="text-center mb-8">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 shadow-lg shadow-emerald-500/20 mb-4 transition-transform hover:scale-105 duration-300">
-            <span className="text-xl font-bold text-white tracking-wider">M</span>
+          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-tr from-[#45d6c5] to-[#5b9cff] shadow-lg shadow-[#45d6c5]/20 mb-4 transition-transform hover:scale-105 duration-300">
+            <span className="text-xl font-bold text-[#070b10] tracking-wider">M</span>
           </div>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl">
+          <h2 className="text-3xl font-extrabold text-[#f0f5fa] tracking-tight sm:text-4xl">
             Get started
           </h2>
-          <p className="mt-2 text-sm text-slate-400">
+          <p className="mt-2 text-sm text-[#71818c]">
             Create your unified personal space
           </p>
         </div>
 
         {/* Card wrapper with glassmorphism */}
-        <div className="rounded-2xl border border-slate-800/80 bg-slate-900/40 p-8 shadow-2xl backdrop-blur-md">
+        <div className="rounded-2xl border border-[#1d2a3d] bg-[#0d151e] p-8 shadow-2xl">
           <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
               <div className="rounded-lg bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400 animate-pulse">
@@ -87,7 +87,7 @@ export default function RegisterPage() {
             )}
 
             <div>
-              <label htmlFor="fullName" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label htmlFor="fullName" className="block text-xs font-semibold text-[#71818c] uppercase tracking-wider mb-2 font-mono">
                 Full Name
               </label>
               <input
@@ -96,13 +96,13 @@ export default function RegisterPage() {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3 text-white placeholder-slate-500 shadow-inner outline-none transition-colors duration-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="block w-full rounded-xl border border-[#1d2a3d] bg-[#070b10] px-4 py-3 text-[#f0f5fa] placeholder-[#71818c] outline-none transition-colors duration-200 focus:border-[#45d6c5]"
                 placeholder="John Doe"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label htmlFor="email" className="block text-xs font-semibold text-[#71818c] uppercase tracking-wider mb-2 font-mono">
                 Email Address
               </label>
               <input
@@ -113,13 +113,13 @@ export default function RegisterPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3 text-white placeholder-slate-500 shadow-inner outline-none transition-colors duration-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="block w-full rounded-xl border border-[#1d2a3d] bg-[#070b10] px-4 py-3 text-[#f0f5fa] placeholder-[#71818c] outline-none transition-colors duration-200 focus:border-[#45d6c5]"
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label htmlFor="password" className="block text-xs font-semibold text-[#71818c] uppercase tracking-wider mb-2 font-mono">
                 Password
               </label>
               <input
@@ -129,13 +129,13 @@ export default function RegisterPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3 text-white placeholder-slate-500 shadow-inner outline-none transition-colors duration-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="block w-full rounded-xl border border-[#1d2a3d] bg-[#070b10] px-4 py-3 text-[#f0f5fa] placeholder-[#71818c] outline-none transition-colors duration-200 focus:border-[#45d6c5]"
                 placeholder="Minimum 8 characters"
               />
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label htmlFor="confirmPassword" className="block text-xs font-semibold text-[#71818c] uppercase tracking-wider mb-2 font-mono">
                 Confirm Password
               </label>
               <input
@@ -145,7 +145,7 @@ export default function RegisterPage() {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3 text-white placeholder-slate-500 shadow-inner outline-none transition-colors duration-200 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="block w-full rounded-xl border border-[#1d2a3d] bg-[#070b10] px-4 py-3 text-[#f0f5fa] placeholder-[#71818c] outline-none transition-colors duration-200 focus:border-[#45d6c5]"
                 placeholder="Repeat password"
               />
             </div>
@@ -153,18 +153,18 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="relative flex w-full justify-center rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:from-emerald-500 hover:to-teal-500 hover:shadow-emerald-500/20 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5"
+              className="relative flex w-full justify-center rounded-xl bg-gradient-to-r from-[#45d6c5] to-[#5b9cff] px-4 py-3 text-sm font-bold text-[#070b10] shadow-lg transition-all duration-300 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5"
             >
               {isSubmitting ? "Creating workspace..." : "Get Started"}
             </button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-[#71818c]">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-medium text-emerald-400 transition-colors duration-200 hover:text-emerald-300 hover:underline"
+                className="font-medium text-[#45d6c5] transition-colors duration-200 hover:underline"
               >
                 Sign in instead
               </Link>

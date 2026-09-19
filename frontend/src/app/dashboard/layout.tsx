@@ -23,10 +23,10 @@ export default function DashboardLayout({
 
   if (isLoading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0b0f19] text-slate-100">
+      <div className="flex min-h-screen items-center justify-center bg-[#070b10] text-[#f0f5fa]">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-          <p className="text-slate-400 text-sm tracking-wide">Validating session...</p>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#45d6c5] border-t-transparent" />
+          <p className="text-[#71818c] text-sm tracking-wide font-mono">Validating session...</p>
         </div>
       </div>
     );
@@ -44,36 +44,48 @@ export default function DashboardLayout({
   const userDisplayName = user.profile?.full_name || user.email.split("@")[0];
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-slate-100 flex flex-col md:flex-row">
-      {/* Background gradients */}
-      <div className="absolute top-0 right-0 h-[400px] w-[600px] rounded-full bg-emerald-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 h-[400px] w-[600px] rounded-full bg-teal-500/5 blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-[#070b10] text-[#f0f5fa] flex flex-col md:flex-row font-sans">
+      {/* Background radial glows */}
+      <div className="absolute top-0 right-0 h-[400px] w-[600px] rounded-full bg-[#45d6c5]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 h-[400px] w-[600px] rounded-full bg-[#5b9cff]/5 blur-[120px] pointer-events-none" />
 
       {/* Sidebar navigation */}
-      <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-slate-800/80 bg-slate-900/40 backdrop-blur-md flex flex-col z-20">
-        <div className="px-6 py-5 flex items-center gap-3 border-b border-slate-800/40">
-          <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-500 shadow-md shadow-emerald-500/20">
-            <span className="text-xs font-bold text-slate-950 tracking-wider">M</span>
+      <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-[#1d2a3d] bg-[#0d151e] flex flex-col z-20">
+        {/* Brand Header */}
+        <div className="px-6 py-5 flex items-center justify-between border-b border-[#1d2a3d]">
+          <div className="flex items-center gap-3">
+            <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[#45d6c5]/15 border border-[#45d6c5]/30">
+              <span className="text-xs font-bold text-[#45d6c5] tracking-wider font-mono">M</span>
+            </div>
+            <span className="font-bold text-base tracking-tight text-[#f0f5fa]">
+              MERIDIAN <span className="text-[10px] font-mono text-[#71818c]">/ Workspace</span>
+            </span>
           </div>
-          <span className="font-bold text-base tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
-            Meridian OS
+        </div>
+
+        {/* System Online Badge */}
+        <div className="px-6 py-2 bg-[#111d2a]/50 border-b border-[#1d2a3d] flex items-center justify-between">
+          <span className="text-[10px] font-mono text-[#71818c] uppercase tracking-wider">Status</span>
+          <span className="text-[10px] font-mono text-[#45d6c5] flex items-center gap-1.5 font-semibold">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#45d6c5] animate-pulse" />
+            SYSTEM ONLINE
           </span>
         </div>
 
-        <nav className="flex-1 px-4 py-6 space-y-1">
+        <nav className="flex-1 px-4 py-6 space-y-1.5">
           {navItems.map((item) => {
             const isActive = pathname === item.path;
             return (
               <Link
                 key={item.path}
                 href={item.path}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ${
                   isActive
-                    ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shadow-sm"
-                    : "text-slate-400 border border-transparent hover:bg-slate-800/50 hover:text-slate-100"
+                    ? "bg-[#45d6c5]/10 border border-[#45d6c5]/30 text-[#45d6c5] shadow-sm"
+                    : "text-[#71818c] border border-transparent hover:bg-[#111d2a] hover:text-[#f0f5fa]"
                 }`}
               >
-                <span>{item.icon}</span>
+                <span className="text-sm">{item.icon}</span>
                 <span>{item.name}</span>
               </Link>
             );
@@ -81,20 +93,20 @@ export default function DashboardLayout({
         </nav>
 
         {/* User Footer Profile */}
-        <div className="p-4 border-t border-slate-800/40 flex items-center justify-between">
+        <div className="p-4 border-t border-[#1d2a3d] bg-[#070b10]/40 flex items-center justify-between">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="h-9 w-9 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-slate-950 flex-shrink-0 flex items-center justify-center font-bold text-sm">
+            <div className="h-8 w-8 rounded-lg bg-[#5b9cff]/15 border border-[#5b9cff]/30 flex-shrink-0 flex items-center justify-center font-bold text-xs text-[#5b9cff] font-mono">
               {userDisplayName[0].toUpperCase()}
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-medium text-slate-200 truncate">{userDisplayName}</p>
-              <p className="text-[10px] text-slate-500 truncate">{user.email}</p>
+              <p className="text-xs font-semibold text-[#f0f5fa] truncate">{userDisplayName}</p>
+              <p className="text-[10px] text-[#71818c] truncate font-mono">{user.email}</p>
             </div>
           </div>
           <button
             onClick={logout}
             title="Sign Out"
-            className="p-2 text-slate-400 hover:text-rose-400 transition-colors duration-200 text-sm"
+            className="p-1.5 rounded-lg text-[#71818c] hover:text-red-400 hover:bg-red-500/10 transition-colors duration-200 text-xs"
           >
             🚪
           </button>
@@ -102,7 +114,7 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main Dashboard Screen View */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative z-10">
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative z-10 bg-[#070b10]">
         {children}
       </div>
     </div>

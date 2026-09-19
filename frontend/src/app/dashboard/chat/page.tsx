@@ -168,7 +168,7 @@ export default function ChatPage() {
         return (
           <pre
             key={lineIdx}
-            className="bg-zinc-950 px-4 py-1.5 rounded-lg font-mono text-xs overflow-x-auto border border-zinc-800/40 text-emerald-400/90 leading-relaxed my-1"
+            className="bg-[#070b10] px-4 py-1.5 rounded-lg font-mono text-xs overflow-x-auto border border-[#1d2a3d] text-[#45d6c5] leading-relaxed my-1"
           >
             <code>{line}</code>
           </pre>
@@ -178,7 +178,7 @@ export default function ChatPage() {
       // Simple bullet point conversion
       if (line.startsWith("- ") || line.startsWith("* ")) {
         return (
-          <li key={lineIdx} className="ml-4 list-disc text-sm text-zinc-300 py-0.5">
+          <li key={lineIdx} className="ml-4 list-disc text-sm text-[#f0f5fa] py-0.5">
             {formatBoldText(line.slice(2))}
           </li>
         );
@@ -186,7 +186,7 @@ export default function ChatPage() {
 
       // Standard text line
       return (
-        <p key={lineIdx} className="text-sm text-zinc-300 leading-relaxed my-1 min-h-[1rem]">
+        <p key={lineIdx} className="text-sm text-[#f0f5fa] leading-relaxed my-1 min-h-[1rem]">
           {formatBoldText(line)}
         </p>
       );
@@ -198,18 +198,18 @@ export default function ChatPage() {
     const parts = text.split(/(\*\*.*?\*\*)/g);
     return parts.map((part, partIdx) => {
       if (part.startsWith("**") && part.endsWith("**")) {
-        return <strong key={partIdx} className="text-white font-bold">{part.slice(2, -2)}</strong>;
+        return <strong key={partIdx} className="text-[#45d6c5] font-bold">{part.slice(2, -2)}</strong>;
       }
       return part;
     });
   };
 
   return (
-    <main className="flex-1 flex min-h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-hidden relative animate-fadeIn">
+    <main className="flex-1 flex min-h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-hidden relative bg-[#070b10]">
       {/* Sidebar Threads Drawer (Left) */}
-      <aside className="w-80 border-r border-zinc-800/80 bg-zinc-950/20 backdrop-blur-md flex flex-col hidden sm:flex">
+      <aside className="w-80 border-r border-[#1d2a3d] bg-[#0d151e] flex flex-col hidden sm:flex">
         {/* Create new thread input */}
-        <div className="p-4 border-b border-zinc-800/40">
+        <div className="p-4 border-b border-[#1d2a3d]">
           <form onSubmit={handleCreateThreadSubmit} className="flex gap-2">
             <input
               type="text"
@@ -217,12 +217,12 @@ export default function ChatPage() {
               value={newThreadTitle}
               onChange={(e) => setNewThreadTitle(e.target.value)}
               disabled={isCreatingThread}
-              className="flex-1 rounded-xl border border-slate-800 bg-slate-950/50 px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 outline-none focus:border-emerald-500"
+              className="flex-1 rounded-xl border border-[#1d2a3d] bg-[#070b10] px-3.5 py-2 text-xs text-[#f0f5fa] placeholder-[#71818c] outline-none focus:border-[#45d6c5]"
             />
             <button
               type="submit"
               disabled={isCreatingThread || !newThreadTitle.trim()}
-              className="rounded-xl bg-slate-900 border border-slate-800 px-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-white disabled:opacity-50"
+              className="rounded-xl bg-[#111d2a] border border-[#1d2a3d] px-3 text-sm text-[#45d6c5] hover:bg-[#1d2a3d] disabled:opacity-50"
             >
               ＋
             </button>
@@ -233,11 +233,11 @@ export default function ChatPage() {
         <div className="flex-1 overflow-y-auto p-4 space-y-1.5">
           {isFetchingThreads ? (
             <div className="flex flex-col items-center justify-center p-8 gap-2">
-              <div className="h-5 w-5 animate-spin rounded-full border border-emerald-500 border-t-transparent" />
-              <p className="text-slate-600 text-[10px]">Loading chats...</p>
+              <div className="h-5 w-5 animate-spin rounded-full border border-[#45d6c5] border-t-transparent" />
+              <p className="text-[#71818c] text-[10px]">Loading chats...</p>
             </div>
           ) : threads.length === 0 ? (
-            <p className="text-slate-500 text-xs text-center p-4">No conversations started yet.</p>
+            <p className="text-[#71818c] text-xs text-center p-4">No conversations started yet.</p>
           ) : (
             threads.map((thread) => {
               const isActive = thread.id === activeThreadId;
@@ -245,16 +245,16 @@ export default function ChatPage() {
                 <button
                   key={thread.id}
                   onClick={() => handleSelectThread(thread.id)}
-                  className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-205 flex flex-col gap-1 ${
+                  className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-200 flex flex-col gap-1 ${
                     isActive
-                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                      : "border-transparent text-slate-400 hover:bg-slate-900/50 hover:text-slate-200"
+                      ? "bg-[#45d6c5]/10 border-[#45d6c5]/30 text-[#45d6c5]"
+                      : "border-transparent text-[#71818c] hover:bg-[#111d2a] hover:text-[#f0f5fa]"
                   }`}
                 >
                   <span className="text-xs font-semibold truncate block w-full">
                     {thread.title}
                   </span>
-                  <span className="text-[9px] text-slate-600">
+                  <span className="text-[9px] text-[#71818c]">
                     {new Date(thread.updated_at).toLocaleDateString()}
                   </span>
                 </button>
@@ -265,18 +265,18 @@ export default function ChatPage() {
       </aside>
 
       {/* Message Chat Room (Right) */}
-      <section className="flex-1 flex flex-col min-w-0 bg-slate-950/20">
+      <section className="flex-1 flex flex-col min-w-0 bg-[#070b10]">
         {/* Active room header */}
-        <div className="px-6 py-4 border-b border-slate-800/40 bg-slate-900/30 backdrop-blur-md flex items-center justify-between min-h-[4rem]">
+        <div className="px-6 py-4 border-b border-[#1d2a3d] bg-[#0d151e] flex items-center justify-between min-h-[4rem]">
           {activeThreadId ? (
             <div>
-              <h2 className="text-sm font-semibold text-slate-200">
+              <h2 className="text-sm font-semibold text-[#f0f5fa]">
                 {threads.find((t) => t.id === activeThreadId)?.title || "Active Chat"}
               </h2>
-              <p className="text-[10px] text-slate-500">Connected to Meridian Reasoning Engine</p>
+              <p className="text-[10px] text-[#71818c] font-mono">Connected to Meridian Reasoning Engine</p>
             </div>
           ) : (
-            <p className="text-xs text-slate-500">Select or start a chat thread to begin.</p>
+            <p className="text-xs text-[#71818c]">Select or start a chat thread to begin.</p>
           )}
         </div>
 
@@ -285,15 +285,15 @@ export default function ChatPage() {
           {!activeThreadId ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
               <span className="text-3xl mb-3">💬</span>
-              <h4 className="font-semibold text-sm mb-1 text-slate-300">Meridian persistent memory chat</h4>
-              <p className="text-slate-500 text-xs max-w-xs">
+              <h4 className="font-semibold text-sm mb-1 text-[#f0f5fa]">Meridian persistent memory chat</h4>
+              <p className="text-[#71818c] text-xs max-w-xs leading-relaxed">
                 Start a thread from the history bar to converse with your AI agent, search uploaded files, and update profile memories.
               </p>
             </div>
           ) : isFetchingMessages ? (
             <div className="h-full flex flex-col items-center justify-center gap-2">
-              <div className="h-6 w-6 animate-spin rounded-full border border-emerald-500 border-t-transparent" />
-              <p className="text-slate-500 text-xs">Syncing chat room history...</p>
+              <div className="h-6 w-6 animate-spin rounded-full border border-[#45d6c5] border-t-transparent" />
+              <p className="text-[#71818c] text-xs">Syncing chat room history...</p>
             </div>
           ) : (
             <>
@@ -307,14 +307,14 @@ export default function ChatPage() {
                     <div
                       className={`max-w-[75%] rounded-2xl p-4 text-xs shadow-md border ${
                         isAgent
-                          ? "bg-slate-900/40 border-slate-800/80 text-slate-200 rounded-tl-sm backdrop-blur-sm"
-                          : "bg-gradient-to-r from-emerald-500 to-teal-500 border-emerald-400/40 text-slate-950 font-medium rounded-tr-sm"
+                          ? "bg-[#0d151e] border-[#1d2a3d] text-[#f0f5fa] rounded-tl-sm"
+                          : "bg-[#111d2a] border-[#45d6c5]/40 text-[#f0f5fa] rounded-tr-sm"
                       }`}
                     >
                       <div className="space-y-1.5">
                         {renderMessageContent(msg.content)}
                       </div>
-                      <span className={`text-[8px] block mt-2 text-right ${isAgent ? "text-slate-500" : "text-slate-800"}`}>
+                      <span className="text-[8px] text-[#71818c] font-mono block mt-2 text-right">
                         {new Date(msg.created_at).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
@@ -328,12 +328,12 @@ export default function ChatPage() {
               {/* Generating typing loader bubble */}
               {isSending && (
                 <div className="flex justify-start">
-                  <div className="max-w-[75%] rounded-2xl rounded-tl-sm p-4 bg-slate-900/30 border border-slate-800/40 text-slate-400 flex items-center gap-1.5">
-                    <span className="text-[10px]">Meridian OS is reasoning</span>
+                  <div className="max-w-[75%] rounded-2xl rounded-tl-sm p-4 bg-[#0d151e] border border-[#1d2a3d] text-[#71818c] flex items-center gap-2">
+                    <span className="text-[10px] font-mono text-[#45d6c5]">Meridian OS is reasoning...</span>
                     <span className="flex gap-1">
-                      <span className="h-1 w-1 bg-emerald-500 rounded-full animate-bounce delay-75" />
-                      <span className="h-1 w-1 bg-emerald-500 rounded-full animate-bounce delay-150" />
-                      <span className="h-1 w-1 bg-emerald-500 rounded-full animate-bounce delay-225" />
+                      <span className="h-1.5 w-1.5 bg-[#45d6c5] rounded-full animate-bounce delay-75" />
+                      <span className="h-1.5 w-1.5 bg-[#5b9cff] rounded-full animate-bounce delay-150" />
+                      <span className="h-1.5 w-1.5 bg-[#a27bff] rounded-full animate-bounce delay-225" />
                     </span>
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export default function ChatPage() {
         </div>
 
         {/* Input box */}
-        <div className="p-4 border-t border-slate-800/40 bg-slate-900/30 backdrop-blur-md">
+        <div className="p-4 border-t border-[#1d2a3d] bg-[#0d151e]">
           <form onSubmit={handleSendMessageSubmit} className="flex gap-2 max-w-4xl mx-auto">
             <input
               type="text"
@@ -356,12 +356,12 @@ export default function ChatPage() {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               disabled={!activeThreadId || isSending}
-              className="flex-1 rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-emerald-500 focus:bg-slate-950/80 disabled:opacity-50"
+              className="flex-1 rounded-xl border border-[#1d2a3d] bg-[#070b10] px-4 py-3 text-xs text-[#f0f5fa] placeholder-[#71818c] outline-none focus:border-[#45d6c5] disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={!activeThreadId || isSending || !inputText.trim()}
-              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 text-xs font-semibold text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-xl bg-gradient-to-r from-[#45d6c5] to-[#5b9cff] px-6 text-xs font-bold text-[#070b10] hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Send
             </button>

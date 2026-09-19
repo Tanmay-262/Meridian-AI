@@ -170,8 +170,8 @@ export default function LearningPage() {
     return (
       <div key={node.title} style={{ paddingLeft: `${depth * 16}px` }} className="space-y-1">
         <div className="flex items-center gap-2 py-1">
-          <span className="text-[10px] text-emerald-400">❖</span>
-          <span className={`text-xs ${depth === 0 ? "font-bold text-slate-100" : "text-slate-300"}`}>
+          <span className="text-[10px] text-[#45d6c5]">❖</span>
+          <span className={`text-xs ${depth === 0 ? "font-bold text-[#f0f5fa]" : "text-[#71818c]"}`}>
             {node.title}
           </span>
         </div>
@@ -185,12 +185,12 @@ export default function LearningPage() {
   return (
     <main className="flex-1 px-8 py-10 max-w-5xl w-full mx-auto space-y-8">
       {/* Header Panel */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/40 pb-6">
+      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1d2a3d] pb-6">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-[#f0f5fa]">
             AI Study Hub
           </h2>
-          <p className="text-slate-400 text-xs mt-1">
+          <p className="text-[#71818c] text-xs mt-1">
             Analyze reading materials to automatically compile flashcards, multiple-choice quizzes, and mind maps.
           </p>
         </div>
@@ -200,7 +200,7 @@ export default function LearningPage() {
           <select
             value={selectedDocId || ""}
             onChange={(e) => setSelectedDocId(Number(e.target.value))}
-            className="bg-slate-900/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 max-w-xs truncate"
+            className="bg-[#0d151e] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] focus:outline-none focus:border-[#45d6c5] max-w-xs truncate"
           >
             {documents.map((doc) => (
               <option key={doc.id} value={doc.id}>
@@ -216,7 +216,7 @@ export default function LearningPage() {
         <div
           className={`p-4 rounded-xl border text-xs ${
             message.type === "success"
-              ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+              ? "bg-[#45d6c5]/10 border-[#45d6c5]/30 text-[#45d6c5]"
               : "bg-red-500/10 border-red-500/20 text-red-400"
           }`}
         >
@@ -225,31 +225,31 @@ export default function LearningPage() {
       )}
 
       {isFetchingDocs || isFetchingStudy ? (
-        <div className="flex flex-col items-center justify-center p-32 border border-slate-800/40 rounded-2xl bg-slate-950/20">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-          <p className="text-slate-400 text-xs mt-3">Loading study materials...</p>
+        <div className="flex flex-col items-center justify-center p-32 border border-[#1d2a3d] rounded-2xl bg-[#0d151e]">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#45d6c5] border-t-transparent" />
+          <p className="text-[#71818c] text-xs mt-3">Loading study materials...</p>
         </div>
       ) : documents.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-24 border border-dashed border-slate-800 rounded-2xl text-center">
+        <div className="flex flex-col items-center justify-center p-24 border border-dashed border-[#1d2a3d] rounded-2xl text-center bg-[#0d151e]">
           <span className="text-3xl">📁</span>
-          <p className="text-slate-300 text-sm mt-3 font-semibold">No ready documents found</p>
-          <p className="text-slate-400 text-xs mt-1">Go upload a document in the Knowledge Hub first!</p>
+          <p className="text-[#f0f5fa] text-sm mt-3 font-semibold">No ready documents found</p>
+          <p className="text-[#71818c] text-xs mt-1">Go upload a document in the Knowledge Hub first!</p>
         </div>
       ) : !mindMap ? (
         /* Empty State: Prompt Generation */
-        <div className="flex flex-col items-center justify-center p-24 border border-slate-800/80 rounded-2xl bg-slate-900/40 backdrop-blur-md text-center max-w-xl mx-auto space-y-4">
+        <div className="flex flex-col items-center justify-center p-24 border border-[#1d2a3d] rounded-2xl bg-[#0d151e] text-center max-w-xl mx-auto space-y-4">
           <span className="text-4xl">🧠</span>
-          <h3 className="font-semibold text-slate-200">Generate Study Pack</h3>
-          <p className="text-slate-400 text-xs leading-relaxed">
+          <h3 className="font-semibold text-[#f0f5fa]">Generate Study Pack</h3>
+          <p className="text-[#71818c] text-xs leading-relaxed">
             There are no study assets generated for this document yet. Click the button below to parse document chunks and let the AI compile flashcards, mind maps, and quiz questions.
           </p>
           <button
             onClick={handleGenerate}
             disabled={isGenerating}
-            className="px-6 py-2.5 text-xs font-semibold rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+            className="px-6 py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-[#45d6c5] to-[#5b9cff] text-[#070b10] hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isGenerating && (
-              <span className="h-3 w-3 animate-spin rounded-full border border-white border-t-transparent" />
+              <span className="h-3 w-3 animate-spin rounded-full border border-[#070b10] border-t-transparent" />
             )}
             Compile Study Materials
           </button>
@@ -258,7 +258,7 @@ export default function LearningPage() {
         /* Study assets content tabs view */
         <div className="space-y-6">
           {/* Tabs Menu */}
-          <div className="flex border-b border-slate-800/40 gap-2">
+          <div className="flex border-b border-[#1d2a3d] gap-2">
             {[
               { id: "flashcards", name: "Flashcards", icon: "🃏" },
               { id: "quizzes", name: "Practice Quizzes", icon: "📝" },
@@ -269,8 +269,8 @@ export default function LearningPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-2 px-4 py-2 border-b-2 text-xs font-semibold transition-all duration-200 ${
                   activeTab === tab.id
-                    ? "border-emerald-500 text-emerald-400 font-bold"
-                    : "border-transparent text-slate-400 hover:text-slate-200"
+                    ? "border-[#45d6c5] text-[#45d6c5]"
+                    : "border-transparent text-[#71818c] hover:text-[#f0f5fa]"
                 }`}
               >
                 <span>{tab.icon}</span>
@@ -282,7 +282,7 @@ export default function LearningPage() {
           {/* Flashcards Tab Panel */}
           {activeTab === "flashcards" && flashcards.length > 0 && (
             <div className="space-y-6 max-w-md mx-auto">
-              <div className="flex items-center justify-between text-xs text-slate-400 px-2">
+              <div className="flex items-center justify-between text-xs text-[#71818c] px-2 font-mono">
                 <span>Card {currentCardIndex + 1} of {flashcards.length}</span>
                 <span>Leitner Box: {flashcards[currentCardIndex].box}</span>
               </div>
@@ -298,24 +298,24 @@ export default function LearningPage() {
                   }`}
                 >
                   {/* Front Side */}
-                  <div className={`absolute inset-0 backface-hidden rounded-2xl border bg-gradient-to-tr from-emerald-950/40 to-teal-950/30 border-emerald-500/30 p-6 flex flex-col items-center justify-center text-center space-y-4 ${
+                  <div className={`absolute inset-0 backface-hidden rounded-2xl border bg-[#0d151e] border-[#1d2a3d] p-6 flex flex-col items-center justify-center text-center space-y-4 ${
                     isFlipped ? "hidden" : "flex"
                   }`}>
-                    <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Question</span>
-                    <p className="text-slate-200 font-semibold text-sm leading-relaxed">
+                    <span className="text-[10px] uppercase font-bold text-[#45d6c5] tracking-wider font-mono">Question</span>
+                    <p className="text-[#f0f5fa] font-bold text-sm leading-relaxed">
                       {flashcards[currentCardIndex].front}
                     </p>
-                    <span className="text-[10px] text-slate-500 mt-4 group-hover:text-slate-300 transition-colors">
+                    <span className="text-[10px] text-[#71818c] font-mono mt-4 group-hover:text-[#45d6c5] transition-colors">
                       Click to reveal answer
                     </span>
                   </div>
 
                   {/* Back Side */}
-                  <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border bg-slate-950 border-slate-800/80 p-6 flex flex-col items-center justify-center text-center space-y-4 ${
+                  <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border bg-[#111d2a] border-[#1d2a3d] p-6 flex flex-col items-center justify-center text-center space-y-4 ${
                     isFlipped ? "flex" : "hidden"
                   }`}>
-                    <span className="text-[10px] uppercase font-bold text-teal-400 tracking-wider">Answer</span>
-                    <p className="text-slate-300 text-xs leading-relaxed max-h-[160px] overflow-y-auto">
+                    <span className="text-[10px] uppercase font-bold text-[#a27bff] tracking-wider font-mono">Answer</span>
+                    <p className="text-[#f0f5fa] text-xs leading-relaxed max-h-[160px] overflow-y-auto">
                       {flashcards[currentCardIndex].back}
                     </p>
                   </div>
@@ -335,7 +335,7 @@ export default function LearningPage() {
                   <button
                     onClick={() => handleCardReview(flashcards[currentCardIndex].id, true)}
                     disabled={isReviewingId !== null}
-                    className="flex-1 py-2 text-xs font-semibold rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2 text-xs font-semibold rounded-xl bg-[#45d6c5]/10 border border-[#45d6c5]/30 text-[#45d6c5] hover:bg-[#45d6c5]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
                   >
                     ✓ Got It! (+1 Box)
                   </button>
@@ -350,7 +350,7 @@ export default function LearningPage() {
                     setIsFlipped(false);
                     setCurrentCardIndex((i) => i - 1);
                   }}
-                  className="px-4 py-2 rounded-xl border border-slate-800 text-xs text-slate-300 hover:bg-slate-800/50 disabled:opacity-30"
+                  className="px-4 py-2 rounded-xl border border-[#1d2a3d] bg-[#0d151e] text-xs text-[#71818c] hover:bg-[#111d2a] hover:text-[#f0f5fa] disabled:opacity-30"
                 >
                   ← Prev
                 </button>
@@ -360,7 +360,7 @@ export default function LearningPage() {
                     setIsFlipped(false);
                     setCurrentCardIndex((i) => i + 1);
                   }}
-                  className="px-4 py-2 rounded-xl border border-slate-800 text-xs text-slate-300 hover:bg-slate-800/50 disabled:opacity-30"
+                  className="px-4 py-2 rounded-xl border border-[#1d2a3d] bg-[#0d151e] text-xs text-[#71818c] hover:bg-[#111d2a] hover:text-[#f0f5fa] disabled:opacity-30"
                 >
                   Next →
                 </button>
@@ -377,8 +377,8 @@ export default function LearningPage() {
                 const isCorrect = selectedOption === q.correct_option;
 
                 return (
-                  <div key={q.id} className="p-6 border border-slate-800/80 rounded-2xl bg-slate-900/40 backdrop-blur-md space-y-4">
-                    <h4 className="font-semibold text-sm text-slate-200">
+                  <div key={q.id} className="p-6 border border-[#1d2a3d] rounded-2xl bg-[#0d151e] space-y-4">
+                    <h4 className="font-semibold text-sm text-[#f0f5fa]">
                       {idx + 1}. {q.question}
                     </h4>
 
@@ -388,14 +388,14 @@ export default function LearningPage() {
                         const isThisSelected = selectedOption === optionChar;
                         const isThisCorrect = q.correct_option === optionChar;
 
-                        let btnStyle = "border-slate-800 bg-slate-950/40 hover:bg-slate-800/60 text-slate-300";
+                        let btnStyle = "border-[#1d2a3d] bg-[#111d2a] hover:bg-[#1d2a3d] text-[#f0f5fa]";
                         if (isSelected) {
                           if (isThisCorrect) {
-                            btnStyle = "border-emerald-500/40 bg-emerald-500/10 text-emerald-400";
+                            btnStyle = "border-[#45d6c5]/40 bg-[#45d6c5]/10 text-[#45d6c5]";
                           } else if (isThisSelected) {
                             btnStyle = "border-red-500/40 bg-red-500/10 text-red-400";
                           } else {
-                            btnStyle = "border-slate-800/30 opacity-50 text-slate-500";
+                            btnStyle = "border-[#1d2a3d]/30 opacity-50 text-[#71818c]";
                           }
                         }
 
@@ -406,7 +406,7 @@ export default function LearningPage() {
                             onClick={() => setQuizAnswers((prev) => ({ ...prev, [q.id]: optionChar }))}
                             className={`px-4 py-2.5 rounded-xl border text-left text-xs font-medium transition-all duration-200 flex items-center gap-2 ${btnStyle}`}
                           >
-                            <span className="h-5 w-5 rounded-lg border border-slate-700/60 bg-slate-950 flex items-center justify-center text-[10px] font-bold text-slate-300">
+                            <span className="h-5 w-5 rounded-lg border border-[#1d2a3d] bg-[#070b10] flex items-center justify-center text-[10px] font-bold">
                               {optionChar}
                             </span>
                             <span>{opt}</span>
@@ -417,13 +417,13 @@ export default function LearningPage() {
 
                     {isSelected && (
                       <div className={`p-4 rounded-xl border text-xs leading-relaxed space-y-1.5 ${
-                        isCorrect ? "bg-emerald-500/5 border-emerald-500/10 text-emerald-400" : "bg-red-500/5 border-red-500/10 text-slate-400"
+                        isCorrect ? "bg-[#45d6c5]/5 border-[#45d6c5]/20 text-[#45d6c5]" : "bg-red-500/5 border-red-500/20 text-[#71818c]"
                       }`}>
                         <p className="font-bold flex items-center gap-1.5">
                           {isCorrect ? "✓ Correct!" : "❌ Incorrect"}
-                          <span className="text-[10px] text-slate-500">Correct Option: {q.correct_option}</span>
+                          <span className="text-[10px] text-[#71818c]">Correct Option: {q.correct_option}</span>
                         </p>
-                        <p className="text-slate-400 text-[11px]">{q.explanation}</p>
+                        <p className="text-[#71818c] text-[11px]">{q.explanation}</p>
                       </div>
                     )}
                   </div>
@@ -434,14 +434,14 @@ export default function LearningPage() {
 
           {/* MindMap Tab Panel */}
           {activeTab === "mindmap" && mindMap && (
-            <div className="p-6 border border-slate-800/80 rounded-2xl bg-slate-900/40 backdrop-blur-md space-y-4">
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
+            <div className="p-6 border border-[#1d2a3d] rounded-2xl bg-[#0d151e] space-y-4">
+              <h3 className="text-sm font-bold text-[#f0f5fa] flex items-center gap-2">
                 <span>🌳</span> Conceptual Mind Map Tree
               </h3>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-[#71818c]">
                 Explore the conceptual outline mapped from your document text topics.
               </p>
-              <div className="border border-slate-800/40 rounded-xl p-4 bg-slate-950/30 overflow-x-auto max-h-[400px] space-y-2">
+              <div className="border border-[#1d2a3d] rounded-xl p-4 bg-[#070b10] overflow-x-auto max-h-[400px] space-y-2">
                 {renderMindMapNode(mindMap.structure)}
               </div>
             </div>

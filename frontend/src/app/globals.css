@@ -1,29 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b0f19;
-  --foreground: #f1f5f9;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0b0f19;
-    --foreground: #f1f5f9;
-  }
+  --background: #070b10;
+  --foreground: #f0f5fa;
+  --deep-space: #070b10;
+  --midnight: #0d151e;
+  --carbon: #111d2a;
+  --meridian-teal: #45d6c5;
+  --signal-blue: #5b9cff;
+  --intelligence-violet: #a27bff;
+  --gold-signal: #d5a65b;
+  --cloud: #f0f5fa;
+  --steel: #71818c;
+  --border-subtle: #1d2a3d;
 }
 
 body {
-  background: #0b0f19;
-  color: #f1f5f9;
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Inter, system-ui, -apple-system, sans-serif;
 }
+
+/* Custom Design Utility Tokens */
+.bg-deep-space { background-color: #070b10; }
+.bg-midnight { background-color: #0d151e; }
+.bg-carbon { background-color: #111d2a; }
+.border-subtle { border-color: #1d2a3d; }
+
+.text-cloud { color: #f0f5fa; }
+.text-steel { color: #71818c; }
+.text-meridian-teal { color: #45d6c5; }
+.text-signal-blue { color: #5b9cff; }
+.text-intelligence { color: #a27bff; }
+.text-gold { color: #d5a65b; }
+
+.bg-meridian-teal { background-color: #45d6c5; }
+.bg-signal-blue { background-color: #5b9cff; }
+.bg-intelligence { background-color: #a27bff; }
+.bg-gold { background-color: #d5a65b; }
 
 /* Custom 3D Card Flip Utilities */
 .perspective {

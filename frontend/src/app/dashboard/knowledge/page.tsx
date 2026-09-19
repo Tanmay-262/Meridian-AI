@@ -145,10 +145,10 @@ export default function KnowledgePage() {
     <main className="flex-1 max-w-7xl w-full mx-auto p-6 sm:p-8 grid gap-8 animate-fadeIn">
       {/* Title */}
       <section className="flex flex-col gap-2">
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[#f0f5fa]">
           Knowledge Hub
         </h1>
-        <p className="text-zinc-400 text-sm sm:text-base max-w-xl">
+        <p className="text-[#71818c] text-xs sm:text-sm max-w-xl">
           Central archives ingestion. Upload PDF and DOCX files to store metadata, index tags, and prepare text for RAG lookup.
         </p>
       </section>
@@ -156,15 +156,15 @@ export default function KnowledgePage() {
       {/* Upload Zone & Status Alert */}
       <section className="grid gap-6 lg:grid-cols-3">
         {/* Upload Form (Left Column, span 1) */}
-        <div className="lg:col-span-1 rounded-2xl border border-slate-800/80 bg-slate-900/30 p-6 backdrop-blur-sm h-fit">
-          <h3 className="font-semibold text-lg mb-4 text-slate-200">Ingest Document</h3>
+        <div className="lg:col-span-1 rounded-2xl border border-[#1d2a3d] bg-[#0d151e] p-6 h-fit">
+          <h3 className="font-bold text-base text-[#f0f5fa] mb-4">Ingest Document</h3>
           
           {message && (
             <div
               className={`mb-4 rounded-xl border p-4 text-xs ${
                 message.type === "success"
-                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                  : "bg-rose-500/10 border-rose-500/20 text-rose-400"
+                  ? "bg-[#45d6c5]/10 border-[#45d6c5]/30 text-[#45d6c5]"
+                  : "bg-red-500/10 border-red-500/20 text-red-400"
               }`}
             >
               {message.text}
@@ -173,7 +173,7 @@ export default function KnowledgePage() {
 
           <form onSubmit={handleUploadSubmit} className="space-y-4">
             {/* File selection drop area */}
-            <div className="border-2 border-dashed border-slate-800 hover:border-emerald-500/50 rounded-xl p-6 text-center cursor-pointer transition-colors duration-200 relative bg-slate-950/40">
+            <div className="border-2 border-dashed border-[#1d2a3d] hover:border-[#45d6c5]/60 rounded-xl p-6 text-center cursor-pointer transition-colors duration-200 relative bg-[#111d2a]/40">
               <input
                 id="file-upload-input"
                 name="file"
@@ -183,17 +183,17 @@ export default function KnowledgePage() {
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               <span className="text-2xl mb-2 block">📥</span>
-              <p className="text-xs font-medium text-slate-300">
+              <p className="text-xs font-semibold text-[#f0f5fa]">
                 {selectedFile ? selectedFile.name : "Drag & drop PDF / DOCX here"}
               </p>
-              <p className="text-[10px] text-slate-500 mt-1">
+              <p className="text-[10px] text-[#71818c] mt-1 font-mono">
                 {selectedFile ? formatBytes(selectedFile.size) : "Max size 10MB"}
               </p>
             </div>
 
             {/* Custom tags entry */}
             <div>
-              <label htmlFor="tags-input" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label htmlFor="tags-input" className="block text-xs font-semibold text-[#71818c] uppercase tracking-wider mb-2 font-mono">
                 Document Tags
               </label>
               <input
@@ -203,7 +203,7 @@ export default function KnowledgePage() {
                 placeholder="e.g. machine-learning, notes, math"
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
-                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-2.5 text-xs text-slate-100 placeholder-slate-600 outline-none transition-colors focus:border-emerald-500"
+                className="block w-full rounded-xl border border-[#1d2a3d] bg-[#111d2a] px-4 py-2.5 text-xs text-[#f0f5fa] placeholder-[#71818c] outline-none transition-colors focus:border-[#45d6c5]"
               />
             </div>
 
@@ -212,7 +212,7 @@ export default function KnowledgePage() {
               name="upload_submit"
               type="submit"
               disabled={isUploading || !selectedFile}
-              className="w-full justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-lg shadow-emerald-500/10 transition-all duration-300 hover:from-emerald-400 hover:to-teal-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full justify-center rounded-xl bg-gradient-to-r from-[#45d6c5] to-[#5b9cff] px-4 py-2.5 text-xs font-bold text-[#070b10] shadow-md transition-all duration-300 hover:opacity-90 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {isUploading ? "Uploading..." : "Upload Document"}
             </button>
@@ -220,11 +220,11 @@ export default function KnowledgePage() {
         </div>
 
         {/* Catalog Index (Right Column, span 2) */}
-        <div className="lg:col-span-2 rounded-2xl border border-slate-800/80 bg-slate-900/30 p-6 backdrop-blur-sm flex flex-col min-h-[400px]">
+        <div className="lg:col-span-2 rounded-2xl border border-[#1d2a3d] bg-[#0d151e] p-6 flex flex-col min-h-[400px]">
           {/* Search Header */}
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1 relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs">🔍</span>
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#71818c] text-xs">🔍</span>
               <input
                 id="search-query-input"
                 name="search_query"
@@ -232,7 +232,7 @@ export default function KnowledgePage() {
                 placeholder="Search index by filename or tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 pl-10 pr-4 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none transition-colors focus:border-emerald-500/50"
+                className="block w-full rounded-xl border border-[#1d2a3d] bg-[#111d2a] pl-10 pr-4 py-2 text-xs text-[#f0f5fa] placeholder-[#71818c] outline-none transition-colors focus:border-[#45d6c5]"
               />
             </div>
           </div>
@@ -240,22 +240,22 @@ export default function KnowledgePage() {
           {/* Document list render */}
           {isFetching ? (
             <div className="flex-1 flex flex-col items-center justify-center gap-2">
-              <div className="h-6 w-6 animate-spin rounded-full border border-indigo-500 border-t-transparent" />
-              <p className="text-zinc-500 text-xs">Syncing index catalog...</p>
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#45d6c5] border-t-transparent" />
+              <p className="text-[#71818c] text-xs font-mono">Syncing index catalog...</p>
             </div>
           ) : filteredDocuments.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-zinc-950/10 rounded-xl border border-zinc-850 border-dashed">
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-[#111d2a]/30 rounded-xl border border-[#1d2a3d] border-dashed">
               <span className="text-3xl mb-3">📁</span>
-              <h4 className="font-semibold text-sm mb-1 text-zinc-300">No documents found</h4>
-              <p className="text-zinc-500 text-xs max-w-xs">
+              <h4 className="font-bold text-sm mb-1 text-[#f0f5fa]">No documents found</h4>
+              <p className="text-[#71818c] text-xs max-w-xs">
                 {searchQuery ? "No records match your query." : "Upload a PDF or Word document to build your Knowledge catalog."}
               </p>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-zinc-800/40 text-left">
+              <table className="min-w-full divide-y divide-[#1d2a3d] text-left">
                 <thead>
-                  <tr className="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">
+                  <tr className="text-[10px] font-mono font-bold text-[#71818c] uppercase tracking-wider">
                     <th className="pb-3 pr-4">File Name</th>
                     <th className="pb-3 px-4">Size</th>
                     <th className="pb-3 px-4">Tags</th>
@@ -263,32 +263,32 @@ export default function KnowledgePage() {
                     <th className="pb-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-850/30 text-xs text-zinc-300">
+                <tbody className="divide-y divide-[#1d2a3d]/60 text-xs text-[#f0f5fa]">
                   {filteredDocuments.map((doc) => {
                     const isWord = doc.filename.endsWith(".docx") || doc.filename.endsWith(".doc");
                     return (
-                      <tr key={doc.id} className="hover:bg-zinc-900/10 transition-colors duration-150">
+                      <tr key={doc.id} className="hover:bg-[#111d2a]/60 transition-colors duration-150">
                         {/* Filename & Icon */}
-                        <td className="py-4 pr-4 font-medium text-zinc-200 flex items-center gap-2.5 max-w-[200px] sm:max-w-[300px]">
+                        <td className="py-4 pr-4 font-semibold text-[#f0f5fa] flex items-center gap-2.5 max-w-[200px] sm:max-w-[300px]">
                           <span className="text-lg" title={isWord ? "Word Document" : "PDF Document"}>
                             {isWord ? "🟦" : "🟥"}
                           </span>
                           <span className="truncate" title={doc.filename}>{doc.filename}</span>
                         </td>
                         {/* Size */}
-                        <td className="py-4 px-4 text-zinc-400 whitespace-nowrap">
+                        <td className="py-4 px-4 text-[#71818c] font-mono whitespace-nowrap">
                           {formatBytes(doc.file_size)}
                         </td>
                         {/* Tags list */}
                         <td className="py-4 px-4">
                           <div className="flex flex-wrap gap-1">
                             {doc.tags.length === 0 ? (
-                              <span className="text-[10px] text-zinc-600">—</span>
+                              <span className="text-[10px] text-[#71818c] font-mono">—</span>
                             ) : (
                               doc.tags.map((tag) => (
                                 <span
                                   key={tag.id}
-                                  className="inline-flex items-center rounded-md bg-zinc-800 px-2 py-0.5 text-[10px] font-medium text-zinc-400 border border-zinc-700/50"
+                                  className="inline-flex items-center rounded-md bg-[#111d2a] px-2 py-0.5 text-[10px] font-mono text-[#5b9cff] border border-[#5b9cff]/20"
                                 >
                                   {tag.name}
                                 </span>
@@ -297,21 +297,21 @@ export default function KnowledgePage() {
                           </div>
                         </td>
                         {/* Parser status */}
-                        <td className="py-4 px-4 whitespace-nowrap">
+                        <td className="py-4 px-4 whitespace-nowrap font-mono">
                           {doc.status === "processing" && (
-                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-amber-400">
-                              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-amber-400" />
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-[#d5a65b]">
+                              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#d5a65b]" />
                               Parsing
                             </span>
                           )}
                           {doc.status === "completed" && (
-                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-emerald-400">
-                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-[#45d6c5]">
+                              <span className="h-1.5 w-1.5 rounded-full bg-[#45d6c5]" />
                               Ready
                             </span>
                           )}
                           {doc.status === "failed" && (
-                            <span className="inline-flex items-center gap-1.5 text-[10px] font-medium text-rose-400">
+                            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-rose-400">
                               <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
                               Failed
                             </span>
@@ -322,11 +322,11 @@ export default function KnowledgePage() {
                           <button
                             onClick={() => handleDelete(doc.id)}
                             disabled={deletingId === doc.id}
-                            className="p-1 rounded-md text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+                            className="p-1 rounded-md text-[#71818c] hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
                             title="Delete document"
                           >
                             {deletingId === doc.id ? (
-                              <span className="inline-block animate-spin h-3.5 w-3.5 border border-zinc-500 border-t-transparent rounded-full" />
+                              <span className="inline-block animate-spin h-3.5 w-3.5 border border-[#71818c] border-t-transparent rounded-full" />
                             ) : (
                               "🗑️"
                             )}

@@ -144,20 +144,20 @@ export default function PlannerPage() {
   };
 
   const priorityColors: Record<string, string> = {
-    high: "bg-red-500/10 border-red-500/30 text-red-400",
-    medium: "bg-amber-500/10 border-amber-500/30 text-amber-400",
-    low: "bg-emerald-500/10 border-emerald-500/30 text-emerald-400",
+    high: "bg-[#d5a65b]/15 border-[#d5a65b]/40 text-[#d5a65b]",
+    medium: "bg-[#5b9cff]/15 border-[#5b9cff]/40 text-[#5b9cff]",
+    low: "bg-[#71818c]/15 border-[#71818c]/40 text-[#71818c]",
   };
 
   return (
     <main className="flex-1 px-8 py-10 max-w-6xl w-full mx-auto space-y-8">
       {/* Header */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/40 pb-6">
+      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1d2a3d] pb-6">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold text-[#f0f5fa]">
             Schedule Planner
           </h2>
-          <p className="text-slate-400 text-xs mt-1">
+          <p className="text-[#71818c] text-xs mt-1">
             Organize events, meetings, and let the AI resolve overlaps automatically based on priority weights.
           </p>
         </div>
@@ -166,10 +166,10 @@ export default function PlannerPage() {
           <button
             onClick={handleAutoResolve}
             disabled={isResolving}
-            className="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-emerald-500/20"
+            className="px-4 py-2 text-xs font-bold rounded-xl bg-gradient-to-r from-[#45d6c5] to-[#5b9cff] text-[#070b10] hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center gap-2"
           >
             {isResolving ? (
-              <span className="h-3 w-3 animate-spin rounded-full border border-white border-t-transparent" />
+              <span className="h-3 w-3 animate-spin rounded-full border border-[#070b10] border-t-transparent" />
             ) : (
               "✨"
             )}
@@ -183,9 +183,9 @@ export default function PlannerPage() {
         <div
           className={`p-4 rounded-xl border text-xs leading-relaxed whitespace-pre-line ${
             message.type === "success"
-              ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+              ? "bg-[#45d6c5]/10 border-[#45d6c5]/30 text-[#45d6c5]"
               : message.type === "warning"
-              ? "bg-amber-500/10 border-amber-500/20 text-amber-400"
+              ? "bg-[#d5a65b]/10 border-[#d5a65b]/30 text-[#d5a65b]"
               : "bg-red-500/10 border-red-500/20 text-red-400"
           }`}
         >
@@ -195,7 +195,7 @@ export default function PlannerPage() {
 
       {/* Warning Banner for active conflicts */}
       {hasAnyConflicts && (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center gap-3">
+        <div className="p-4 rounded-xl bg-[#d5a65b]/10 border border-[#d5a65b]/30 text-[#d5a65b] text-xs flex items-center gap-3">
           <span>⚠️</span>
           <span>
             <strong>Scheduling Conflict Detected:</strong> Two or more events overlap. Click the **Auto-Resolve Conflicts** button to automatically shift low-priority tasks.
@@ -208,18 +208,18 @@ export default function PlannerPage() {
         
         {/* Left 2 Cols: Calendar Event Feed */}
         <div className="lg:col-span-2 space-y-4">
-          <h3 className="text-sm font-semibold text-slate-300">Scheduled Events</h3>
+          <h3 className="text-sm font-semibold text-[#f0f5fa]">Scheduled Events</h3>
           
           {isFetching ? (
-            <div className="flex flex-col items-center justify-center p-20 border border-slate-800/40 rounded-2xl bg-slate-950/20">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
-              <p className="text-slate-400 text-xs mt-3">Loading active schedule...</p>
+            <div className="flex flex-col items-center justify-center p-20 border border-[#1d2a3d] rounded-2xl bg-[#0d151e]">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#45d6c5] border-t-transparent" />
+              <p className="text-[#71818c] text-xs mt-3">Loading active schedule...</p>
             </div>
           ) : events.length === 0 ? (
-            <div className="flex flex-col items-center justify-center p-20 border border-dashed border-slate-800 rounded-2xl text-center">
+            <div className="flex flex-col items-center justify-center p-20 border border-dashed border-[#1d2a3d] rounded-2xl text-center bg-[#0d151e]">
               <span className="text-3xl">📅</span>
-              <p className="text-slate-300 text-sm mt-3 font-semibold">Your schedule is empty</p>
-              <p className="text-slate-400 text-xs mt-1">Use the panel on the right to schedule tasks or ask the AI.</p>
+              <p className="text-[#f0f5fa] text-sm mt-3 font-semibold">Your schedule is empty</p>
+              <p className="text-[#71818c] text-xs mt-1">Use the panel on the right to schedule tasks or ask the AI.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -228,30 +228,30 @@ export default function PlannerPage() {
                 return (
                   <div
                     key={ev.id}
-                    className={`p-4 rounded-xl border bg-slate-900/40 backdrop-blur-md flex items-start justify-between gap-4 transition-all hover:bg-slate-800/40 ${
-                      hasConflict ? "border-red-500/40 shadow-md shadow-red-500/5" : "border-slate-800/80"
+                    className={`p-4 rounded-xl border bg-[#0d151e] flex items-start justify-between gap-4 transition-all hover:bg-[#111d2a] ${
+                      hasConflict ? "border-red-500/40 shadow-md shadow-red-500/5" : "border-[#1d2a3d]"
                     }`}
                   >
                     <div className="space-y-1.5 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full border ${priorityColors[ev.priority] || priorityColors.medium}`}>
+                        <span className={`text-[10px] font-semibold font-mono uppercase px-2 py-0.5 rounded-full border ${priorityColors[ev.priority] || priorityColors.medium}`}>
                           {ev.priority}
                         </span>
                         
                         {hasConflict && (
-                          <span className="text-[10px] font-semibold bg-red-500/15 border border-red-500/30 text-red-400 px-2 py-0.5 rounded-full">
+                          <span className="text-[10px] font-semibold font-mono bg-red-500/15 border border-red-500/30 text-red-400 px-2 py-0.5 rounded-full">
                             Overlap Conflict
                           </span>
                         )}
                         
-                        <h4 className="font-semibold text-slate-100 text-sm truncate">{ev.title}</h4>
+                        <h4 className="font-semibold text-[#f0f5fa] text-sm truncate">{ev.title}</h4>
                       </div>
 
                       {ev.description && (
-                        <p className="text-xs text-slate-400 line-clamp-2">{ev.description}</p>
+                        <p className="text-xs text-[#71818c] line-clamp-2">{ev.description}</p>
                       )}
 
-                      <p className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                      <p className="text-[11px] text-[#71818c] font-mono flex items-center gap-1.5">
                         <span>🕒</span>
                         <span>
                           {new Date(ev.start_time).toLocaleString(undefined, {
@@ -268,7 +268,7 @@ export default function PlannerPage() {
 
                     <button
                       onClick={() => handleDelete(ev.id)}
-                      className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-slate-800/40 rounded-lg transition-all"
+                      className="p-1.5 text-[#71818c] hover:text-red-400 hover:bg-[#111d2a] rounded-lg transition-all"
                       title="Delete Event"
                     >
                       🗑️
@@ -282,41 +282,41 @@ export default function PlannerPage() {
 
         {/* Right Col: Create Event Form */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-slate-300">Schedule Task</h3>
+          <h3 className="text-sm font-semibold text-[#f0f5fa]">Schedule Task</h3>
           
-          <form onSubmit={handleSchedule} className="p-6 border border-slate-800/80 rounded-2xl bg-slate-900/40 backdrop-blur-md space-y-4">
+          <form onSubmit={handleSchedule} className="p-6 border border-[#1d2a3d] rounded-2xl bg-[#0d151e] space-y-4">
             {/* Title */}
             <div className="space-y-1.5">
-              <label className="text-xs text-slate-400 font-medium">Event Title *</label>
+              <label className="text-xs text-[#71818c] font-medium">Event Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Weekly Standup"
-                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                className="w-full bg-[#070b10] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] placeholder-[#71818c] focus:outline-none focus:border-[#45d6c5]"
               />
             </div>
 
             {/* Description */}
             <div className="space-y-1.5">
-              <label className="text-xs text-slate-400 font-medium">Notes / Details</label>
+              <label className="text-xs text-[#71818c] font-medium">Notes / Details</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Details or link to meeting..."
                 rows={2}
-                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 resize-none"
+                className="w-full bg-[#070b10] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] placeholder-[#71818c] focus:outline-none focus:border-[#45d6c5] resize-none"
               />
             </div>
 
             {/* Priority */}
             <div className="space-y-1.5">
-              <label className="text-xs text-slate-400 font-medium">Priority Weight</label>
+              <label className="text-xs text-[#71818c] font-medium">Priority Weight</label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
-                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                className="w-full bg-[#070b10] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] focus:outline-none focus:border-[#45d6c5]"
               >
                 <option value="high">🔴 High</option>
                 <option value="medium">🟡 Medium</option>
@@ -326,25 +326,25 @@ export default function PlannerPage() {
 
             {/* Start Time */}
             <div className="space-y-1.5">
-              <label className="text-xs text-slate-400 font-medium">Start Date & Time *</label>
+              <label className="text-xs text-[#71818c] font-medium">Start Date & Time *</label>
               <input
                 type="datetime-local"
                 required
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                className="w-full bg-[#070b10] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] focus:outline-none focus:border-[#45d6c5]"
               />
             </div>
 
             {/* End Time */}
             <div className="space-y-1.5">
-              <label className="text-xs text-slate-400 font-medium">End Date & Time *</label>
+              <label className="text-xs text-[#71818c] font-medium">End Date & Time *</label>
               <input
                 type="datetime-local"
                 required
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
+                className="w-full bg-[#070b10] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] focus:outline-none focus:border-[#45d6c5]"
               />
             </div>
 
@@ -352,10 +352,10 @@ export default function PlannerPage() {
             <button
               type="submit"
               disabled={isScheduling}
-              className="w-full py-2.5 text-xs font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+              className="w-full py-2.5 text-xs font-bold rounded-xl bg-gradient-to-r from-[#45d6c5] to-[#5b9cff] text-[#070b10] hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isScheduling && (
-                <span className="h-3 w-3 animate-spin rounded-full border border-white border-t-transparent" />
+                <span className="h-3 w-3 animate-spin rounded-full border border-[#070b10] border-t-transparent" />
               )}
               Add to Calendar
             </button>
