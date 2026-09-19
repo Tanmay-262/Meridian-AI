@@ -152,12 +152,12 @@ export default function PlannerPage() {
   return (
     <main className="flex-1 px-8 py-10 max-w-6xl w-full mx-auto space-y-8">
       {/* Header */}
-      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800/40 pb-6">
+      <section className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/40 pb-6">
         <div>
-          <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-100 to-slate-400 bg-clip-text text-transparent">
             Schedule Planner
           </h2>
-          <p className="text-zinc-500 text-xs mt-1">
+          <p className="text-slate-400 text-xs mt-1">
             Organize events, meetings, and let the AI resolve overlaps automatically based on priority weights.
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function PlannerPage() {
           <button
             onClick={handleAutoResolve}
             disabled={isResolving}
-            className="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 text-xs font-semibold rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-emerald-500/20"
           >
             {isResolving ? (
               <span className="h-3 w-3 animate-spin rounded-full border border-white border-t-transparent" />
@@ -208,18 +208,18 @@ export default function PlannerPage() {
         
         {/* Left 2 Cols: Calendar Event Feed */}
         <div className="lg:col-span-2 space-y-4">
-          <h3 className="text-sm font-semibold text-zinc-300">Scheduled Events</h3>
+          <h3 className="text-sm font-semibold text-slate-300">Scheduled Events</h3>
           
           {isFetching ? (
-            <div className="flex flex-col items-center justify-center p-20 border border-zinc-800/40 rounded-2xl bg-zinc-950/20">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
-              <p className="text-zinc-500 text-xs mt-3">Loading active schedule...</p>
+            <div className="flex flex-col items-center justify-center p-20 border border-slate-800/40 rounded-2xl bg-slate-950/20">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-emerald-500 border-t-transparent" />
+              <p className="text-slate-400 text-xs mt-3">Loading active schedule...</p>
             </div>
           ) : events.length === 0 ? (
-            <div className="flex flex-col items-center justify-center p-20 border border-dashed border-zinc-800 rounded-2xl text-center">
+            <div className="flex flex-col items-center justify-center p-20 border border-dashed border-slate-800 rounded-2xl text-center">
               <span className="text-3xl">📅</span>
-              <p className="text-zinc-400 text-sm mt-3 font-semibold">Your schedule is empty</p>
-              <p className="text-zinc-500 text-xs mt-1">Use the panel on the right to schedule tasks or ask the AI.</p>
+              <p className="text-slate-300 text-sm mt-3 font-semibold">Your schedule is empty</p>
+              <p className="text-slate-400 text-xs mt-1">Use the panel on the right to schedule tasks or ask the AI.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -228,8 +228,8 @@ export default function PlannerPage() {
                 return (
                   <div
                     key={ev.id}
-                    className={`p-4 rounded-xl border bg-zinc-950/40 backdrop-blur-md flex items-start justify-between gap-4 transition-all hover:bg-zinc-900/40 ${
-                      hasConflict ? "border-red-500/40 shadow-md shadow-red-500/5" : "border-zinc-800/80"
+                    className={`p-4 rounded-xl border bg-slate-900/40 backdrop-blur-md flex items-start justify-between gap-4 transition-all hover:bg-slate-800/40 ${
+                      hasConflict ? "border-red-500/40 shadow-md shadow-red-500/5" : "border-slate-800/80"
                     }`}
                   >
                     <div className="space-y-1.5 min-w-0">
@@ -244,14 +244,14 @@ export default function PlannerPage() {
                           </span>
                         )}
                         
-                        <h4 className="font-semibold text-zinc-100 text-sm truncate">{ev.title}</h4>
+                        <h4 className="font-semibold text-slate-100 text-sm truncate">{ev.title}</h4>
                       </div>
 
                       {ev.description && (
-                        <p className="text-xs text-zinc-400 line-clamp-2">{ev.description}</p>
+                        <p className="text-xs text-slate-400 line-clamp-2">{ev.description}</p>
                       )}
 
-                      <p className="text-[11px] text-zinc-500 flex items-center gap-1.5">
+                      <p className="text-[11px] text-slate-400 flex items-center gap-1.5">
                         <span>🕒</span>
                         <span>
                           {new Date(ev.start_time).toLocaleString(undefined, {
@@ -268,7 +268,7 @@ export default function PlannerPage() {
 
                     <button
                       onClick={() => handleDelete(ev.id)}
-                      className="p-1.5 text-zinc-500 hover:text-red-400 hover:bg-zinc-800/40 rounded-lg transition-all"
+                      className="p-1.5 text-slate-500 hover:text-red-400 hover:bg-slate-800/40 rounded-lg transition-all"
                       title="Delete Event"
                     >
                       🗑️
@@ -282,41 +282,41 @@ export default function PlannerPage() {
 
         {/* Right Col: Create Event Form */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-zinc-300">Schedule Task</h3>
+          <h3 className="text-sm font-semibold text-slate-300">Schedule Task</h3>
           
-          <form onSubmit={handleSchedule} className="p-6 border border-zinc-800/80 rounded-2xl bg-zinc-950/40 backdrop-blur-md space-y-4">
+          <form onSubmit={handleSchedule} className="p-6 border border-slate-800/80 rounded-2xl bg-slate-900/40 backdrop-blur-md space-y-4">
             {/* Title */}
             <div className="space-y-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Event Title *</label>
+              <label className="text-xs text-slate-400 font-medium">Event Title *</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Weekly Standup"
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             {/* Description */}
             <div className="space-y-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Notes / Details</label>
+              <label className="text-xs text-slate-400 font-medium">Notes / Details</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Details or link to meeting..."
                 rows={2}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500 resize-none"
+                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 resize-none"
               />
             </div>
 
             {/* Priority */}
             <div className="space-y-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Priority Weight</label>
+              <label className="text-xs text-slate-400 font-medium">Priority Weight</label>
               <select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
               >
                 <option value="high">🔴 High</option>
                 <option value="medium">🟡 Medium</option>
@@ -326,25 +326,25 @@ export default function PlannerPage() {
 
             {/* Start Time */}
             <div className="space-y-1.5">
-              <label className="text-xs text-zinc-400 font-medium">Start Date & Time *</label>
+              <label className="text-xs text-slate-400 font-medium">Start Date & Time *</label>
               <input
                 type="datetime-local"
                 required
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
               />
             </div>
 
             {/* End Time */}
             <div className="space-y-1.5">
-              <label className="text-xs text-zinc-400 font-medium">End Date & Time *</label>
+              <label className="text-xs text-slate-400 font-medium">End Date & Time *</label>
               <input
                 type="datetime-local"
                 required
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500"
+                className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
               />
             </div>
 
@@ -352,7 +352,7 @@ export default function PlannerPage() {
             <button
               type="submit"
               disabled={isScheduling}
-              className="w-full py-2.5 text-xs font-semibold rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              className="w-full py-2.5 text-xs font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white hover:from-emerald-500 hover:to-teal-500 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
             >
               {isScheduling && (
                 <span className="h-3 w-3 animate-spin rounded-full border border-white border-t-transparent" />

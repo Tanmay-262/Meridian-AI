@@ -217,12 +217,12 @@ export default function ChatPage() {
               value={newThreadTitle}
               onChange={(e) => setNewThreadTitle(e.target.value)}
               disabled={isCreatingThread}
-              className="flex-1 rounded-xl border border-zinc-850 bg-zinc-950/40 px-3.5 py-2 text-xs text-white placeholder-zinc-600 outline-none focus:border-indigo-500"
+              className="flex-1 rounded-xl border border-slate-800 bg-slate-950/50 px-3.5 py-2 text-xs text-slate-100 placeholder-slate-600 outline-none focus:border-emerald-500"
             />
             <button
               type="submit"
               disabled={isCreatingThread || !newThreadTitle.trim()}
-              className="rounded-xl bg-zinc-900 border border-zinc-800 px-3 text-sm hover:bg-zinc-850 disabled:opacity-50"
+              className="rounded-xl bg-slate-900 border border-slate-800 px-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-white disabled:opacity-50"
             >
               ＋
             </button>
@@ -233,11 +233,11 @@ export default function ChatPage() {
         <div className="flex-1 overflow-y-auto p-4 space-y-1.5">
           {isFetchingThreads ? (
             <div className="flex flex-col items-center justify-center p-8 gap-2">
-              <div className="h-5 w-5 animate-spin rounded-full border border-indigo-500 border-t-transparent" />
-              <p className="text-zinc-600 text-[10px]">Loading chats...</p>
+              <div className="h-5 w-5 animate-spin rounded-full border border-emerald-500 border-t-transparent" />
+              <p className="text-slate-600 text-[10px]">Loading chats...</p>
             </div>
           ) : threads.length === 0 ? (
-            <p className="text-zinc-500 text-xs text-center p-4">No conversations started yet.</p>
+            <p className="text-slate-500 text-xs text-center p-4">No conversations started yet.</p>
           ) : (
             threads.map((thread) => {
               const isActive = thread.id === activeThreadId;
@@ -247,14 +247,14 @@ export default function ChatPage() {
                   onClick={() => handleSelectThread(thread.id)}
                   className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-205 flex flex-col gap-1 ${
                     isActive
-                      ? "bg-indigo-600/10 border-indigo-500/30 text-white"
-                      : "border-transparent text-zinc-400 hover:bg-zinc-900/40 hover:text-zinc-200"
+                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                      : "border-transparent text-slate-400 hover:bg-slate-900/50 hover:text-slate-200"
                   }`}
                 >
                   <span className="text-xs font-semibold truncate block w-full">
                     {thread.title}
                   </span>
-                  <span className="text-[9px] text-zinc-600">
+                  <span className="text-[9px] text-slate-600">
                     {new Date(thread.updated_at).toLocaleDateString()}
                   </span>
                 </button>
@@ -265,18 +265,18 @@ export default function ChatPage() {
       </aside>
 
       {/* Message Chat Room (Right) */}
-      <section className="flex-1 flex flex-col min-w-0 bg-zinc-950/5">
+      <section className="flex-1 flex flex-col min-w-0 bg-slate-950/20">
         {/* Active room header */}
-        <div className="px-6 py-4 border-b border-zinc-800/40 bg-zinc-950/20 backdrop-blur-md flex items-center justify-between min-h-[4rem]">
+        <div className="px-6 py-4 border-b border-slate-800/40 bg-slate-900/30 backdrop-blur-md flex items-center justify-between min-h-[4rem]">
           {activeThreadId ? (
             <div>
-              <h2 className="text-sm font-semibold">
+              <h2 className="text-sm font-semibold text-slate-200">
                 {threads.find((t) => t.id === activeThreadId)?.title || "Active Chat"}
               </h2>
-              <p className="text-[10px] text-zinc-500">Connected to Meridian Reasoning Engine</p>
+              <p className="text-[10px] text-slate-500">Connected to Meridian Reasoning Engine</p>
             </div>
           ) : (
-            <p className="text-xs text-zinc-500">Select or start a chat thread to begin.</p>
+            <p className="text-xs text-slate-500">Select or start a chat thread to begin.</p>
           )}
         </div>
 
@@ -285,15 +285,15 @@ export default function ChatPage() {
           {!activeThreadId ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8">
               <span className="text-3xl mb-3">💬</span>
-              <h4 className="font-semibold text-sm mb-1 text-zinc-300">Meridian persistent memory chat</h4>
-              <p className="text-zinc-500 text-xs max-w-xs">
+              <h4 className="font-semibold text-sm mb-1 text-slate-300">Meridian persistent memory chat</h4>
+              <p className="text-slate-500 text-xs max-w-xs">
                 Start a thread from the history bar to converse with your AI agent, search uploaded files, and update profile memories.
               </p>
             </div>
           ) : isFetchingMessages ? (
             <div className="h-full flex flex-col items-center justify-center gap-2">
-              <div className="h-6 w-6 animate-spin rounded-full border border-indigo-500 border-t-transparent" />
-              <p className="text-zinc-500 text-xs">Syncing chat room history...</p>
+              <div className="h-6 w-6 animate-spin rounded-full border border-emerald-500 border-t-transparent" />
+              <p className="text-slate-500 text-xs">Syncing chat room history...</p>
             </div>
           ) : (
             <>
@@ -307,14 +307,14 @@ export default function ChatPage() {
                     <div
                       className={`max-w-[75%] rounded-2xl p-4 text-xs shadow-md border ${
                         isAgent
-                          ? "bg-zinc-900/30 border-zinc-800/70 text-zinc-300 rounded-tl-sm backdrop-blur-sm"
-                          : "bg-gradient-to-br from-indigo-600 to-indigo-700 border-indigo-500/50 text-white rounded-tr-sm"
+                          ? "bg-slate-900/40 border-slate-800/80 text-slate-200 rounded-tl-sm backdrop-blur-sm"
+                          : "bg-gradient-to-r from-emerald-500 to-teal-500 border-emerald-400/40 text-slate-950 font-medium rounded-tr-sm"
                       }`}
                     >
                       <div className="space-y-1.5">
                         {renderMessageContent(msg.content)}
                       </div>
-                      <span className="text-[8px] text-zinc-500 block mt-2 text-right">
+                      <span className={`text-[8px] block mt-2 text-right ${isAgent ? "text-slate-500" : "text-slate-800"}`}>
                         {new Date(msg.created_at).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
@@ -328,12 +328,12 @@ export default function ChatPage() {
               {/* Generating typing loader bubble */}
               {isSending && (
                 <div className="flex justify-start">
-                  <div className="max-w-[75%] rounded-2xl rounded-tl-sm p-4 bg-zinc-900/20 border border-zinc-800/40 text-zinc-400 flex items-center gap-1.5">
+                  <div className="max-w-[75%] rounded-2xl rounded-tl-sm p-4 bg-slate-900/30 border border-slate-800/40 text-slate-400 flex items-center gap-1.5">
                     <span className="text-[10px]">Meridian OS is reasoning</span>
                     <span className="flex gap-1">
-                      <span className="h-1 w-1 bg-zinc-500 rounded-full animate-bounce delay-75" />
-                      <span className="h-1 w-1 bg-zinc-500 rounded-full animate-bounce delay-150" />
-                      <span className="h-1 w-1 bg-zinc-500 rounded-full animate-bounce delay-225" />
+                      <span className="h-1 w-1 bg-emerald-500 rounded-full animate-bounce delay-75" />
+                      <span className="h-1 w-1 bg-emerald-500 rounded-full animate-bounce delay-150" />
+                      <span className="h-1 w-1 bg-emerald-500 rounded-full animate-bounce delay-225" />
                     </span>
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export default function ChatPage() {
         </div>
 
         {/* Input box */}
-        <div className="p-4 border-t border-zinc-800/40 bg-zinc-950/20 backdrop-blur-md">
+        <div className="p-4 border-t border-slate-800/40 bg-slate-900/30 backdrop-blur-md">
           <form onSubmit={handleSendMessageSubmit} className="flex gap-2 max-w-4xl mx-auto">
             <input
               type="text"
@@ -356,12 +356,12 @@ export default function ChatPage() {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               disabled={!activeThreadId || isSending}
-              className="flex-1 rounded-xl border border-zinc-850 bg-zinc-950/40 px-4 py-3 text-xs text-white placeholder-zinc-500 outline-none focus:border-indigo-500 focus:bg-zinc-950/70 disabled:opacity-50"
+              className="flex-1 rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-3 text-xs text-slate-100 placeholder-slate-500 outline-none focus:border-emerald-500 focus:bg-slate-950/80 disabled:opacity-50"
             />
             <button
               type="submit"
               disabled={!activeThreadId || isSending || !inputText.trim()}
-              className="rounded-xl bg-indigo-600 px-6 text-xs font-semibold text-white hover:bg-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 text-xs font-semibold text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Send
             </button>

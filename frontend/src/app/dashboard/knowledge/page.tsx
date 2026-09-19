@@ -156,15 +156,15 @@ export default function KnowledgePage() {
       {/* Upload Zone & Status Alert */}
       <section className="grid gap-6 lg:grid-cols-3">
         {/* Upload Form (Left Column, span 1) */}
-        <div className="lg:col-span-1 rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 backdrop-blur-sm h-fit">
-          <h3 className="font-semibold text-lg mb-4">Ingest Document</h3>
+        <div className="lg:col-span-1 rounded-2xl border border-slate-800/80 bg-slate-900/30 p-6 backdrop-blur-sm h-fit">
+          <h3 className="font-semibold text-lg mb-4 text-slate-200">Ingest Document</h3>
           
           {message && (
             <div
               className={`mb-4 rounded-xl border p-4 text-xs ${
                 message.type === "success"
                   ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
-                  : "bg-red-500/10 border-red-500/20 text-red-400"
+                  : "bg-rose-500/10 border-rose-500/20 text-rose-400"
               }`}
             >
               {message.text}
@@ -173,7 +173,7 @@ export default function KnowledgePage() {
 
           <form onSubmit={handleUploadSubmit} className="space-y-4">
             {/* File selection drop area */}
-            <div className="border-2 border-dashed border-zinc-800 hover:border-indigo-500/50 rounded-xl p-6 text-center cursor-pointer transition-colors duration-200 relative bg-zinc-950/20">
+            <div className="border-2 border-dashed border-slate-800 hover:border-emerald-500/50 rounded-xl p-6 text-center cursor-pointer transition-colors duration-200 relative bg-slate-950/40">
               <input
                 id="file-upload-input"
                 name="file"
@@ -183,17 +183,17 @@ export default function KnowledgePage() {
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
               />
               <span className="text-2xl mb-2 block">📥</span>
-              <p className="text-xs font-medium text-zinc-300">
+              <p className="text-xs font-medium text-slate-300">
                 {selectedFile ? selectedFile.name : "Drag & drop PDF / DOCX here"}
               </p>
-              <p className="text-[10px] text-zinc-500 mt-1">
+              <p className="text-[10px] text-slate-500 mt-1">
                 {selectedFile ? formatBytes(selectedFile.size) : "Max size 10MB"}
               </p>
             </div>
 
             {/* Custom tags entry */}
             <div>
-              <label htmlFor="tags-input" className="block text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">
+              <label htmlFor="tags-input" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
                 Document Tags
               </label>
               <input
@@ -203,7 +203,7 @@ export default function KnowledgePage() {
                 placeholder="e.g. machine-learning, notes, math"
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
-                className="block w-full rounded-xl border border-zinc-800 bg-zinc-950/50 px-4 py-2.5 text-xs text-white placeholder-zinc-600 outline-none transition-colors focus:border-indigo-500"
+                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 px-4 py-2.5 text-xs text-slate-100 placeholder-slate-600 outline-none transition-colors focus:border-emerald-500"
               />
             </div>
 
@@ -212,7 +212,7 @@ export default function KnowledgePage() {
               name="upload_submit"
               type="submit"
               disabled={isUploading || !selectedFile}
-              className="w-full justify-center rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2.5 text-xs font-semibold text-white shadow-lg transition-all duration-300 hover:from-indigo-500 hover:to-purple-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full justify-center rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-4 py-2.5 text-xs font-semibold text-slate-950 shadow-lg shadow-emerald-500/10 transition-all duration-300 hover:from-emerald-400 hover:to-teal-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isUploading ? "Uploading..." : "Upload Document"}
             </button>
@@ -220,11 +220,11 @@ export default function KnowledgePage() {
         </div>
 
         {/* Catalog Index (Right Column, span 2) */}
-        <div className="lg:col-span-2 rounded-2xl border border-zinc-800/80 bg-zinc-900/10 p-6 backdrop-blur-sm flex flex-col min-h-[400px]">
+        <div className="lg:col-span-2 rounded-2xl border border-slate-800/80 bg-slate-900/30 p-6 backdrop-blur-sm flex flex-col min-h-[400px]">
           {/* Search Header */}
           <div className="flex items-center gap-4 mb-6">
             <div className="flex-1 relative">
-              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 text-xs">🔍</span>
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs">🔍</span>
               <input
                 id="search-query-input"
                 name="search_query"
@@ -232,7 +232,7 @@ export default function KnowledgePage() {
                 placeholder="Search index by filename or tags..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full rounded-xl border border-zinc-800 bg-zinc-950/30 pl-10 pr-4 py-2 text-xs text-white placeholder-zinc-500 outline-none transition-colors focus:border-indigo-500/50"
+                className="block w-full rounded-xl border border-slate-800 bg-slate-950/50 pl-10 pr-4 py-2 text-xs text-slate-100 placeholder-slate-500 outline-none transition-colors focus:border-emerald-500/50"
               />
             </div>
           </div>
