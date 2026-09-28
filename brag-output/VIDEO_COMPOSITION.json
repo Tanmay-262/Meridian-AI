@@ -1,0 +1,80 @@
+{
+  "project": "Meridian Personal OS",
+  "version": "V0.1",
+  "aspect_ratios": ["16:9", "9:16"],
+  "fps": 60,
+  "theme": {
+    "background": "#070B10",
+    "surface": "#0D151E",
+    "accent_primary": "#45D6C5",
+    "accent_secondary": "#5B9CFF",
+    "accent_ai": "#A27BFF",
+    "accent_warning": "#D5A65B",
+    "font_family": "Inter, sans-serif"
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "name": "Problem Statement",
+      "duration_sec": 8,
+      "headline": "10+ Apps. Context Siloed. Every Single Day.",
+      "subtext": "Stop copying and pasting across disconnected productivity tools.",
+      "visual_type": "app_grid_glitch",
+      "apps": ["Notion", "ChatGPT", "PDF Reader", "Google Docs", "Todoist"]
+    },
+    {
+      "id": 2,
+      "name": "Product Reveal",
+      "duration_sec": 8,
+      "headline": "Meet Meridian Personal OS",
+      "subtext": "One unified glassmorphic command center.",
+      "visual_type": "ui_zoom_in",
+      "target_element": "#dashboard-overview"
+    },
+    {
+      "id": 3,
+      "name": "Zero-Cost Local RAG",
+      "duration_sec": 10,
+      "headline": "100% On-Device PyTorch RAG",
+      "subtext": "$0 API Cost. Complete File Privacy.",
+      "visual_type": "drag_drop_vector_flow",
+      "target_element": "#knowledge-hub"
+    },
+    {
+      "id": 4,
+      "name": "LangGraph Memory AI",
+      "duration_sec": 10,
+      "headline": "LangGraph AI + Long-Term Memory",
+      "subtext": "Remembers preferences and facts across threads.",
+      "visual_type": "graph_pulse_chat",
+      "target_element": "#chat-window"
+    },
+    {
+      "id": 5,
+      "name": "AI Auto-Scheduling",
+      "duration_sec": 10,
+      "headline": "AI Calendar & Conflict Resolution",
+      "subtext": "Priority-based schedule shifting in one click.",
+      "visual_type": "timeline_shift_animation",
+      "target_element": "#planner-calendar"
+    },
+    {
+      "id": 6,
+      "name": "Active Recall Learning Hub",
+      "duration_sec": 8,
+      "headline": "3D Flashcards & Leitner Spaced Repetition",
+      "subtext": "5-Box memory progression engine & mind maps.",
+      "visual_type": "3d_card_flip",
+      "target_element": "#learning-hub"
+    },
+    {
+      "id": 7,
+      "name": "Call to Action",
+      "duration_sec": 6,
+      "headline": "Local First. Open Source.",
+      "subtext": "docker compose up -d --build",
+      "visual_type": "terminal_logo_outro",
+      "github_url": "https://github.com/Tanmay-262/Meridian-AI"
+    }
+  ]
+}

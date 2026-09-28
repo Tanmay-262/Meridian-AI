@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meridian Personal OS — Recruiter & AI Engineering Showcase Video</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-space: #070b10;
+      --bg-midnight: #0d151e;
+      --bg-carbon: #111d2a;
+      --border-color: #1d2a3d;
+      --teal-primary: #45d6c5;
+      --blue-signal: #5b9cff;
+      --violet-ai: #a27bff;
+      --gold-alert: #d5a65b;
+      --text-cloud: #f0f5fa;
+      --text-steel: #71818c;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-space);
+      color: var(--text-cloud);
+      font-family: var(--font-sans);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    /* Container Box */
+    .video-wrapper {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--bg-midnight);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(69, 214, 197, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Header Bar */
+    .video-header {
+      background: rgba(13, 21, 30, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 10;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--teal-primary);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--teal-primary);
+    }
+
+    .badge-engineering {
+      background: rgba(162, 123, 255, 0.12);
+      color: var(--violet-ai);
+      border: 1px solid rgba(162, 123, 255, 0.3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Stage Area */
+    .video-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #04070a;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Overlay Scenes */
+    .scene {
+      position: absolute;
+      inset: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .scene.active {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+
+    /* Scene Components */
+    .scene-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--teal-primary);
+      background: rgba(69, 214, 197, 0.1);
+      border: 1px solid rgba(69, 214, 197, 0.25);
+      padding: 6px 14px;
+      border-radius: 6px;
+      width: fit-content;
+      margin-bottom: 12px;
+    }
+
+    .scene-headline {
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 0%, var(--text-cloud) 50%, var(--teal-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .scene-subtext {
+      font-size: 1.05rem;
+      color: var(--text-steel);
+      max-width: 650px;
+      line-height: 1.5;
+    }
+
+    .card-preview {
+      background: var(--bg-midnight);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    /* Scene Specific Visuals */
+    /* Scene 1: App Crisis */
+    .app-crisis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .app-card {
+      background: rgba(17, 29, 42, 0.7);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-steel);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulseAlert 2s infinite alternate;
+    }
+
+    @keyframes pulseAlert {
+      0% { border-color: var(--border-color); }
+      100% { border-color: rgba(213, 166, 91, 0.5); }
+    }
+
+    /* Scene 2: PyTorch Vector RAG */
+    .pipeline-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-carbon);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .pipeline-step {
+      text-align: center;
+      flex: 1;
+    }
+
+    .pipeline-step .icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+
+    .pipeline-step .label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-cloud);
+    }
+
+    .pipeline-step .detail {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--teal-primary);
+      margin-top: 4px;
+    }
+
+    .arrow-divider {
+      color: var(--border-color);
+      font-size: 1.2rem;
+    }
+
+    /* Scene 3: LangGraph Memory Chat */
+    .chat-bubble-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .chat-bubble {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      max-width: 80%;
+      line-height: 1.4;
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: var(--bg-carbon);
+      border: 1px solid var(--border-color);
+      color: var(--text-cloud);
+    }
+
+    .chat-bubble.ai {
+      align-self: flex-start;
+      background: rgba(162, 123, 255, 0.1);
+      border: 1px solid rgba(162, 123, 255, 0.3);
+      color: var(--text-cloud);
+    }
+
+    .memory-badge {
+      display: inline-block;
+      background: rgba(91, 156, 255, 0.15);
+      color: var(--blue-signal);
+      border: 1px solid rgba(91, 156, 255, 0.3);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      margin-top: 6px;
+    }
+
+    /* Scene 4: Calendar Planner */
+    .schedule-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-carbon);
+      border-left: 4px solid var(--gold-alert);
+      padding: 14px 18px;
+      border-radius: 6px;
+      margin-top: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .schedule-row.resolved {
+      border-left-color: var(--teal-primary);
+      animation: highlightResolved 1s ease-in-out;
+    }
+
+    @keyframes highlightResolved {
+      0% { background: rgba(69, 214, 197, 0.2); }
+      100% { background: var(--bg-carbon); }
+    }
+
+    /* Scene 5: 3D Learning Hub */
+    .flashcard-3d {
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(135deg, var(--bg-carbon), var(--bg-midnight));
+      border: 1px solid var(--teal-primary);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      box-shadow: 0 0 20px rgba(69, 214, 197, 0.15);
+    }
+
+    /* Scene 6: Architecture Blueprint */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .arch-box {
+      background: var(--bg-carbon);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .arch-box h4 {
+      color: var(--teal-primary);
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .arch-box p {
+      color: var(--text-steel);
+      font-size: 0.75rem;
+    }
+
+    /* Caption Overlay */
+    .caption-bar {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(7, 11, 16, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-color);
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-cloud);
+      text-align: center;
+      max-width: 80%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 20;
+    }
+
+    /* Controls Bar */
+    .video-controls {
+      background: var(--bg-midnight);
+      border-top: 1px solid var(--border-color);
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-carbon);
+      border-radius: 3px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal-primary), var(--blue-signal), var(--violet-ai));
+      transition: width 0.1s linear;
+    }
+
+    .controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-control {
+      background: var(--bg-carbon);
+      color: var(--text-cloud);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-control:hover {
+      border-color: var(--teal-primary);
+      color: var(--teal-primary);
+    }
+
+    .time-display {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-steel);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="video-wrapper">
+    <!-- Header -->
+    <div class="video-header">
+      <div class="brand-logo">
+        <div class="brand-dot"></div>
+        <span>Meridian Personal OS</span>
+      </div>
+      <div class="badge-engineering">Recruiter & AI Interviewer Showcase (75s)</div>
+    </div>
+
+    <!-- Stage / Canvas -->
+    <div class="video-stage">
+      
+      <!-- SCENE 1: PROBLEM -->
+      <div class="scene active" id="scene-1">
+        <div>
+          <div class="scene-tag">SCENE 01 // THE APPS CRISIS</div>
+          <div class="scene-headline">10+ Disconnected Apps.<br>Siloed Data. Lost Context.</div>
+          <div class="scene-subtext">Modern knowledge workers constantly switch between Notion, ChatGPT, PDF readers, and Google Docs — while AI chatbots forget everything on every refresh.</div>
+        </div>
+        <div class="app-crisis-grid">
+          <div class="app-card">📄 Notion — Siloed Specs</div>
+          <div class="app-card">💬 ChatGPT — No Memory</div>
+          <div class="app-card">📅 Todoist — No AI Sync</div>
+        </div>
+      </div>
+
+      <!-- SCENE 2: LOCAL PYTORCH RAG -->
+      <div class="scene" id="scene-2">
+        <div>
+          <div class="scene-tag">SCENE 02 // ZERO-COST LOCAL RAG</div>
+          <div class="scene-headline">100% On-Device PyTorch RAG.<br>$0 Token Cost. Total Privacy.</div>
+          <div class="scene-subtext">Local PyTorch sentence transformers (all-MiniLM-L6-v2) vectorize PDFs, CSVs, and Word docs on CPU into Qdrant — avoiding external API fees.</div>
+        </div>
+        <div class="pipeline-diagram">
+          <div class="pipeline-step">
+            <div class="icon">📁</div>
+            <div class="label">User Files</div>
+            <div class="detail">PDF/DOCX/CSV</div>
+          </div>
+          <div class="arrow-divider">➔</div>
+          <div class="pipeline-step">
+            <div class="icon">⚡</div>
+            <div class="label">PyTorch CPU</div>
+            <div class="detail">L2 Normalization</div>
+          </div>
+          <div class="arrow-divider">➔</div>
+          <div class="pipeline-step">
+            <div class="icon">🎯</div>
+            <div class="label">Qdrant Vector DB</div>
+            <div class="detail">384-Dim Cosine</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 3: LANGGRAPH & MEMORY -->
+      <div class="scene" id="scene-3">
+        <div>
+          <div class="scene-tag">SCENE 03 // LANGGRAPH & PERSISTENT MEMORY</div>
+          <div class="scene-headline">Cyclical State Loops +<br>PostgreSQL Memory Database</div>
+          <div class="scene-subtext">LangGraph orchestrates multi-turn reasoning, writing long-term profile facts (key: tech_stack, value: Python/FastAPI) that persist across independent threads.</div>
+        </div>
+        <div class="card-preview">
+          <div class="chat-bubble-group">
+            <div class="chat-bubble user">"I'm building a FastAPI backend with PostgreSQL."</div>
+            <div class="chat-bubble ai">
+              "Understood! Storing this profile memory to PostgreSQL."
+              <br><span class="memory-badge">✓ Memory Saved: tech_stack = FastAPI + PostgreSQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: AI PLANNER -->
+      <div class="scene" id="scene-4">
+        <div>
+          <div class="scene-tag">SCENE 04 // AI PLANNER AGENT</div>
+          <div class="scene-headline">Automated Calendar Scheduling & Priority Conflict Shifting</div>
+          <div class="scene-subtext">The AI Planner evaluates schedule overlaps and automatically shifts lower-priority tasks to conflict-free time slots in one click.</div>
+        </div>
+        <div class="card-preview">
+          <div class="schedule-row">
+            <span>[HIGH] Architecture Sprint Review (14:00 - 15:30)</span>
+            <span style="color: var(--gold-alert);">CONFLICT DETECTED</span>
+          </div>
+          <div class="schedule-row resolved" id="rescheduled-row">
+            <span>[LOW] Write Documentation ➔ Auto-Shifted to 15:30 - 16:30</span>
+            <span style="color: var(--teal-primary);">RESOLVED BY AGENT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 5: ACTIVE RECALL HUB -->
+      <div class="scene" id="scene-5">
+        <div>
+          <div class="scene-tag">SCENE 05 // ACTIVE RECALL HUB</div>
+          <div class="scene-headline">3D Interactive Flashcards & 5-Box Leitner Spaced Repetition</div>
+          <div class="scene-subtext">Automatically converts workspace documents into active recall flashcards, MCQ quizzes, and mind maps using timedelta Leitner progression math.</div>
+        </div>
+        <div class="flashcard-3d">
+          <div style="font-family: var(--font-mono); color: var(--teal-primary); font-size: 0.8rem; margin-bottom: 6px;">BOX 4 // RECALL SUCCESS</div>
+          <div style="font-size: 1.1rem; font-weight: 700;">What is mean pooling in sentence transformers?</div>
+        </div>
+      </div>
+
+      <!-- SCENE 6: ARCHITECTURE OVERVIEW -->
+      <div class="scene" id="scene-6">
+        <div>
+          <div class="scene-tag">SCENE 06 // ARCHITECTURAL BLUEPRINT</div>
+          <div class="scene-headline">Production-Grade Stack.<br>Open Source & Dockerized.</div>
+          <div class="scene-subtext">Full-stack engineering architecture built for privacy, performance, and modular scalability.</div>
+        </div>
+        <div class="arch-grid">
+          <div class="arch-box">
+            <h4>Next.js App Router</h4>
+            <p>Glassmorphic UI, TypeScript, Tailwind</p>
+          </div>
+          <div class="arch-box">
+            <h4>FastAPI Backend</h4>
+            <p>Python 3.11, Pydantic v2, Pytest</p>
+          </div>
+          <div class="arch-box">
+            <h4>LangGraph Loop</h4>
+            <p>Gemini v1 Schema, PostgreSQL</p>
+          </div>
+          <div class="arch-box">
+            <h4>Vector Pipeline</h4>
+            <p>PyTorch CPU, Qdrant DB</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtitle Caption Overlay -->
+      <div class="caption-bar" id="caption-text">
+        Loading showcase presentation...
+      </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="video-controls">
+      <div class="progress-bar-container" id="progress-container">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <div class="controls-row">
+        <div class="btn-group">
+          <button class="btn-control" id="btn-play">▶ Play Demo</button>
+          <button class="btn-control" id="btn-reset">↺ Reset</button>
+        </div>
+        <div class="time-display" id="time-display">00:00 / 01:15</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Timeline config: 75s total duration
+    const totalDuration = 75;
+    let currentTime = 0;
+    let isPlaying = false;
+    let timerId = null;
+
+    const captions = [
+      { start: 0, end: 12, text: "Scene 1: Knowledge workers context-switch between 10+ disconnected apps every day.", sceneId: "scene-1" },
+      { start: 12, end: 28, text: "Scene 2: Meridian runs a local PyTorch encoder on CPU — $0 API bills, 100% file privacy.", sceneId: "scene-2" },
+      { start: 28, end: 45, text: "Scene 3: LangGraph orchestrates persistent memory, writing facts to PostgreSQL across threads.", sceneId: "scene-3" },
+      { start: 45, end: 60, text: "Scene 4: The AI Planner automatically shifts lower-priority tasks to resolve calendar conflicts.", sceneId: "scene-4" },
+      { start: 60, end: 70, text: "Scene 5: Generates 3D flashcards with 5-Box Leitner spaced repetition math.", sceneId: "scene-5" },
+      { start: 70, end: 75, text: "Scene 6: Open-source, dockerized, and ready to launch locally. Star on GitHub!", sceneId: "scene-6" }
+    ];
+
+    const playBtn = document.getElementById("btn-play");
+    const resetBtn = document.getElementById("btn-reset");
+    const progressFill = document.getElementById("progress-fill");
+    const timeDisplay = document.getElementById("time-display");
+    const captionText = document.getElementById("caption-text");
+    const progressContainer = document.getElementById("progress-container");
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = Math.floor(sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateState() {
+      progressFill.style.width = `${(currentTime / totalDuration) * 100}%`;
+      timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(totalDuration)}`;
+
+      // Find active scene
+      const activeItem = captions.find(c => currentTime >= c.start && currentTime < c.end) || captions[captions.length - 1];
+      
+      document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+      const currentSceneEl = document.getElementById(activeItem.sceneId);
+      if (currentSceneEl) currentSceneEl.classList.add("active");
+
+      captionText.textContent = activeItem.text;
+
+      if (currentTime >= totalDuration) {
+        pause();
+        currentTime = totalDuration;
+      }
+    }
+
+    function play() {
+      if (currentTime >= totalDuration) currentTime = 0;
+      isPlaying = true;
+      playBtn.textContent = "⏸ Pause";
+      timerId = setInterval(() => {
+        currentTime += 0.5;
+        updateState();
+      }, 500);
+    }
+
+    function pause() {
+      isPlaying = false;
+      playBtn.textContent = "▶ Play Demo";
+      if (timerId) clearInterval(timerId);
+    }
+
+    playBtn.addEventListener("click", () => {
+      if (isPlaying) pause();
+      else play();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      pause();
+      currentTime = 0;
+      updateState();
+    });
+
+    progressContainer.addEventListener("click", (e) => {
+      const rect = progressContainer.getBoundingClientRect();
+      const clickRatio = (e.clientX - rect.left) / rect.width;
+      currentTime = Math.floor(clickRatio * totalDuration);
+      updateState();
+    });
+
+    // Auto-start on load
+    updateState();
+  </script>
+</body>
+</html>

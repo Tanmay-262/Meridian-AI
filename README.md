@@ -4,6 +4,19 @@
 
 ---
 
+## 🎬 Interactive Portfolio Demo Video & Engineering Brag Showcase
+
+> **Recruiter & Engineering Interviewer Showcase (75-Second Walkthrough)**
+>
+> 📽️ **Interactive Showcase Video**: Open **[brag-output/showcase_video.html](brag-output/showcase_video.html)** in your browser to play the animated feature walkthrough!
+>
+> 🚀 **Engineering Brag Document**: Detailed technical breakdowns in **[MERIDIAN_BRAG_DOCUMENT.md](MERIDIAN_BRAG_DOCUMENT.md)**.
+> 
+> 📋 **Recruiter Demo Script**: 75s script & architectural QA in **[brag-output/RECRUITER_DEMO_SCRIPT.md](brag-output/RECRUITER_DEMO_SCRIPT.md)**.
+
+---
+
+
 ## What's Built (V0.1 - Completed)
 
 - 🔐 **Custom Authentication**: User registration and login utilizing native `bcrypt` cryptography and type-safe SQLAlchemy schemas.
