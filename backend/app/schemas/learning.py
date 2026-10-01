@@ -41,3 +41,15 @@ class MindMapResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class LearningAnalyticsResponse(BaseModel):
+    box_distribution: Dict[int, int]
+    mastery_percentage: float
+    total_flashcards: int
+    study_streak_days: int
+    total_reviews_done: int
+
+    class Config:
+        from_attributes = True
+

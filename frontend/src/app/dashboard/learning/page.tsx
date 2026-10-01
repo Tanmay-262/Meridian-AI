@@ -39,6 +39,14 @@ interface MindMap {
   };
 }
 
+interface LearningAnalytics {
+  box_distribution: Record<number, number>;
+  mastery_percentage: number;
+  total_flashcards: number;
+  study_streak_days: number;
+  total_reviews_done: number;
+}
+
 export default function LearningPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selectedDocId, setSelectedDocId] = useState<number | null>(null);
@@ -46,11 +54,13 @@ export default function LearningPage() {
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const [quizzes, setQuizzes] = useState<QuizQuestion[]>([]);
   const [mindMap, setMindMap] = useState<MindMap | null>(null);
+  const [analytics, setAnalytics] = useState<LearningAnalytics | null>(null);
 
   const [activeTab, setActiveTab] = useState<"flashcards" | "quizzes" | "mindmap">("flashcards");
   const [isFetchingDocs, setIsFetchingDocs] = useState(true);
   const [isFetchingStudy, setIsFetchingStudy] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isExportingAnki, setIsExportingAnki] = useState(false);
   const [isReviewingId, setIsReviewingId] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; type: "success" | "error" } | null>(null);
 
@@ -80,6 +90,17 @@ export default function LearningPage() {
     loadDocs();
   }, []);
 
+  // Fetch analytics
+  const fetchAnalytics = async (docId?: number | null) => {
+    try {
+      const url = docId ? `/learning/analytics?document_id=${docId}` : "/learning/analytics";
+      const data = await apiFetch<LearningAnalytics>(url);
+      setAnalytics(data);
+    } catch (err) {
+      console.error("Failed to load analytics:", err);
+    }
+  };
+
   // Fetch study assets for selected document
   const fetchStudyAssets = async (docId: number) => {
     setIsFetchingStudy(true);
@@ -92,6 +113,9 @@ export default function LearningPage() {
     setQuizAnswers({});
 
     try {
+      // Fetch analytics
+      await fetchAnalytics(docId);
+
       // We check if mindmap outline exists first
       const mapData = await apiFetch<MindMap>(`/learning/mindmap/${docId}`);
       setMindMap(mapData);
@@ -118,6 +142,33 @@ export default function LearningPage() {
       fetchStudyAssets(selectedDocId);
     }
   }, [selectedDocId]);
+
+  // Anki Export CSV handler
+  const handleExportAnki = async () => {
+    if (!selectedDocId) return;
+    setIsExportingAnki(true);
+    try {
+      const token = localStorage.getItem("meridian_token");
+      const response = await fetch(`http://localhost:8000/api/v1/learning/export/anki/${selectedDocId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) throw new Error("Export failed");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const docName = documents.find((d) => d.id === selectedDocId)?.filename || "document";
+      a.download = `anki_${docName.replace(/\s+/g, "_")}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } catch (err: any) {
+      console.error("Anki export failed:", err);
+      setMessage({ text: "Failed to export Anki deck.", type: "error" });
+    } finally {
+      setIsExportingAnki(false);
+    }
+  };
 
   // Generate study assets
   const handleGenerate = async () => {
@@ -149,6 +200,9 @@ export default function LearningPage() {
       setFlashcards((prev) =>
         prev.map((c) => (c.id === cardId ? updatedCard : c))
       );
+
+      // Refresh analytics
+      fetchAnalytics(selectedDocId);
       
       setIsFlipped(false);
       // Advance to next card automatically after a brief delay
@@ -195,21 +249,96 @@ export default function LearningPage() {
           </p>
         </div>
 
-        {/* Document Selector */}
+        {/* Document Selector & Anki Export */}
         {!isFetchingDocs && documents.length > 0 && (
-          <select
-            value={selectedDocId || ""}
-            onChange={(e) => setSelectedDocId(Number(e.target.value))}
-            className="bg-[#0d151e] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] focus:outline-none focus:border-[#45d6c5] max-w-xs truncate"
-          >
-            {documents.map((doc) => (
-              <option key={doc.id} value={doc.id}>
-                {doc.filename}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-3">
+            <select
+              value={selectedDocId || ""}
+              onChange={(e) => setSelectedDocId(Number(e.target.value))}
+              className="bg-[#0d151e] border border-[#1d2a3d] rounded-xl px-3 py-2 text-xs text-[#f0f5fa] focus:outline-none focus:border-[#45d6c5] max-w-xs truncate"
+            >
+              {documents.map((doc) => (
+                <option key={doc.id} value={doc.id}>
+                  {doc.filename}
+                </option>
+              ))}
+            </select>
+
+            {mindMap && (
+              <button
+                onClick={handleExportAnki}
+                disabled={isExportingAnki}
+                className="px-3 py-2 text-xs font-semibold rounded-xl bg-[#111d2a] border border-[#1d2a3d] text-[#45d6c5] hover:bg-[#1d2a3d] hover:text-[#f0f5fa] transition-all flex items-center gap-1.5"
+                title="Export Flashcards for Anki / Quizlet"
+              >
+                {isExportingAnki ? "Exporting..." : "📥 Export Anki (.csv)"}
+              </button>
+            )}
+          </div>
         )}
       </section>
+
+      {/* Analytics Summary Panel */}
+      {analytics && (
+        <section className="p-6 rounded-2xl border border-[#1d2a3d] bg-[#0d151e] space-y-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#1d2a3d] pb-4">
+            <div className="flex items-center gap-4">
+              <div>
+                <span className="text-[10px] font-mono text-[#71818c] uppercase tracking-wider block">Mastery Score</span>
+                <span className="text-2xl font-bold text-[#45d6c5] font-mono">{analytics.mastery_percentage}%</span>
+              </div>
+              <div className="h-8 w-px bg-[#1d2a3d]" />
+              <div>
+                <span className="text-[10px] font-mono text-[#71818c] uppercase tracking-wider block">Study Streak</span>
+                <span className="text-sm font-bold text-[#f0f5fa] flex items-center gap-1">
+                  🔥 {analytics.study_streak_days} Day{analytics.study_streak_days === 1 ? "" : "s"}
+                </span>
+              </div>
+              <div className="h-8 w-px bg-[#1d2a3d]" />
+              <div>
+                <span className="text-[10px] font-mono text-[#71818c] uppercase tracking-wider block">Total Reviews</span>
+                <span className="text-sm font-bold text-[#5b9cff] font-mono">{analytics.total_reviews_done}</span>
+              </div>
+            </div>
+
+            <span className="text-xs text-[#71818c] font-mono">
+              Leitner Active Recall Progress
+            </span>
+          </div>
+
+          {/* 5-Box Leitner Bar Graph */}
+          <div className="grid grid-cols-5 gap-2 pt-2">
+            {[
+              { box: 1, label: "Box 1 (New)", color: "bg-[#71818c]" },
+              { box: 2, label: "Box 2 (10m)", color: "bg-[#5b9cff]" },
+              { box: 3, label: "Box 3 (1h)", color: "bg-[#a27bff]" },
+              { box: 4, label: "Box 4 (1d)", color: "bg-[#d5a65b]" },
+              { box: 5, label: "Box 5 (Mastered)", color: "bg-[#45d6c5]" },
+            ].map(({ box, label, color }) => {
+              const count = analytics.box_distribution[box] || 0;
+              const maxCount = Math.max(...Object.values(analytics.box_distribution), 1);
+              const heightPct = Math.max(Math.round((count / maxCount) * 100), 15);
+
+              return (
+                <div key={box} className="flex flex-col items-center gap-1.5">
+                  <div className="h-16 w-full bg-[#070b10] rounded-lg border border-[#1d2a3d] p-1 flex items-end justify-center relative group">
+                    <div
+                      style={{ height: `${heightPct}%` }}
+                      className={`w-full rounded transition-all duration-500 ${color} opacity-80 group-hover:opacity-100`}
+                    />
+                    <span className="absolute text-[10px] font-bold font-mono text-[#f0f5fa] bottom-1">
+                      {count}
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-mono text-[#71818c] text-center line-clamp-1">
+                    {label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Message Alerts */}
       {message && (

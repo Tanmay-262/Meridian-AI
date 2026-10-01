@@ -1,8 +1,10 @@
 import json
 import uuid
-from datetime import datetime, timedelta
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+import csv
+import io
+from datetime import datetime, timedelta, date
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from litellm import completion
 
@@ -10,8 +12,14 @@ from app.api.deps import get_db, get_current_user
 from app.core.config import settings
 from app.models.user import User
 from app.models.document import Document
-from app.models.learning import Flashcard, QuizQuestion, MindMap
-from app.schemas.learning import FlashcardResponse, FlashcardReview, QuizQuestionResponse, MindMapResponse
+from app.models.learning import Flashcard, QuizQuestion, MindMap, StudyLog
+from app.schemas.learning import (
+    FlashcardResponse,
+    FlashcardReview,
+    QuizQuestionResponse,
+    MindMapResponse,
+    LearningAnalyticsResponse,
+)
 from app.database.vector_db import qdrant_client, COLLECTION_NAME
 from qdrant_client.http import models as qdrant_models
 
@@ -240,6 +248,26 @@ def review_flashcard(
             5: timedelta(days=5),
         }
         card.next_review = datetime.utcnow() + intervals[card.box]
+
+        # Log daily activity
+        today = date.today()
+        log = (
+            db.query(StudyLog)
+            .filter(StudyLog.user_id == current_user.id, StudyLog.activity_date == today)
+            .first()
+        )
+        if not log:
+            log = StudyLog(
+                user_id=current_user.id,
+                activity_date=today,
+                cards_reviewed=1,
+                correct_answers=1 if review.correct else 0,
+            )
+            db.add(log)
+        else:
+            log.cards_reviewed += 1
+            if review.correct:
+                log.correct_answers += 1
         
         db.commit()
         db.refresh(card)
@@ -294,3 +322,109 @@ def get_mindmap(
             detail="Mind map outline not found. Click generate to create study assets.",
         )
     return mindmap
+
+
+@router.get("/analytics", response_model=LearningAnalyticsResponse)
+def get_analytics(
+    document_id: Optional[int] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Computes Leitner box distributions, overall retention mastery %, total reviews, and daily streak.
+    """
+    query = db.query(Flashcard).filter(Flashcard.user_id == current_user.id)
+    if document_id is not None:
+        query = query.filter(Flashcard.document_id == document_id)
+    
+    cards = query.all()
+    total_flashcards = len(cards)
+    
+    box_distribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+    weighted_sum = 0
+    for card in cards:
+        b = min(max(card.box, 1), 5)
+        box_distribution[b] += 1
+        weighted_sum += b
+
+    if total_flashcards > 0:
+        mastery_percentage = round((weighted_sum / (total_flashcards * 5.0)) * 100, 1)
+    else:
+        mastery_percentage = 0.0
+
+    # Calculate active daily study streak from StudyLog
+    logs = (
+        db.query(StudyLog)
+        .filter(StudyLog.user_id == current_user.id)
+        .order_by(StudyLog.activity_date.desc())
+        .all()
+    )
+    
+    total_reviews_done = sum(l.cards_reviewed for l in logs)
+    
+    streak_days = 0
+    if logs:
+        today = date.today()
+        latest_date = logs[0].activity_date
+        if latest_date == today or latest_date == today - timedelta(days=1):
+            expected_date = latest_date
+            for l in logs:
+                if l.activity_date == expected_date:
+                    streak_days += 1
+                    expected_date -= timedelta(days=1)
+                else:
+                    break
+
+    return LearningAnalyticsResponse(
+        box_distribution=box_distribution,
+        mastery_percentage=mastery_percentage,
+        total_flashcards=total_flashcards,
+        study_streak_days=streak_days,
+        total_reviews_done=total_reviews_done,
+    )
+
+
+@router.get("/export/anki/{document_id}")
+def export_anki_csv(
+    document_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Generates a downloadable CSV file formatted for Anki/Quizlet flashcard import.
+    """
+    doc = (
+        db.query(Document)
+        .filter(Document.id == document_id, Document.user_id == current_user.id)
+        .first()
+    )
+    if not doc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Document not found.",
+        )
+
+    cards = (
+        db.query(Flashcard)
+        .filter(Flashcard.document_id == document_id, Flashcard.user_id == current_user.id)
+        .all()
+    )
+
+    output = io.StringIO()
+    writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(["Front", "Back", "Tags"])
+
+    tag_names = " ".join([t.name for t in doc.tags]) if doc.tags else "Meridian-AI"
+    for card in cards:
+        writer.writerow([card.front, card.back, tag_names])
+
+    csv_content = output.getvalue()
+    clean_filename = doc.filename.replace(" ", "_")
+    filename = f"anki_{clean_filename}.csv"
+
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={filename}"},
+    )
+
