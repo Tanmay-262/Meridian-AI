@@ -17,13 +17,14 @@
 ---
 
 
-## What's Built (V0.1 - Completed)
+## Platform Modules & Features (V1 - V5 Completed)
 
-- 🔐 **Custom Authentication**: User registration and login utilizing native `bcrypt` cryptography and type-safe SQLAlchemy schemas.
-- 📄 **Knowledge Hub**: Ingestion of PDFs and Word documents, split recursively into chunks and vectorized locally using a PyTorch encoder.
-- 💬 **LangGraph AI Chat**: Agent reasoning cycles built with LangGraph to invoke search tools, load memories, and write long-term user profile facts.
-- 🔍 **Local Semantic RAG**: Question answering grounded directly in your uploaded files, complete with similarity scores and sources.
-- 🐳 **Infrastructure**: Dockerized multi-service network backed by a GitHub Actions CI pipeline verifying builds and Pytest suites.
+- 🔐 **V1: Auth & Knowledge Hub**: User registration and login utilizing native `bcrypt` cryptography and type-safe JWT OAuth2 tokens. Ingestion of PDFs, Word documents (`.docx`, `.doc`), plain text (`.txt`, `.md`), structured data (`.csv`, `.json`), and scanned image PDFs with PyTorch OCR fallback, vectorized locally into Qdrant.
+- 💬 **V2: Persistent Memory & LangGraph RAG Agent**: Agent reasoning cycles built with LangGraph to invoke vector search tools, retrieve grounded document passages with citations, and write long-term user profile memories.
+- 🃏 **V3: AI Study Hub**: Automatic compilation of flashcards with interactive 3D card flip animation, multiple-choice practice quizzes with inline explanations, and hierarchical mind map concept trees.
+- 📅 **V4: AI Schedule Planner**: Event calendar management with priority weighting and an automated conflict resolution timeline-shifting engine.
+- 📊 **V5: Learning Analytics, Retention Metrics & Anki Export**: Daily activity logging (`StudyLog`), a 5-Stage Memory Retention progress dashboard (Learning ➔ Mastered), automated retention mastery scoring math, and one-click Anki CSV deck export.
+- 🎨 **Meridian DS Visual Identity**: A restrained, dark theme design system built around HSL color tokens (`#070B10` Deep Space, `#0D151E` Midnight, `#45D6C5` Meridian Teal, `#5B9CFF` Signal Blue, `#A27BFF` Intelligence Violet).
 
 ---
 
@@ -31,17 +32,18 @@
 
 | Layer | Technology |
 |---|---|
-| Frontend | Next.js (App Router), TypeScript, Tailwind CSS, shadcn/ui |
-| Backend | FastAPI, Python, SQLAlchemy, PostgreSQL, Redis |
-| AI / Agents | LangGraph, Google Gemini (via LiteLLM), Qdrant (vector DB) |
-| Embeddings | Local PyTorch Encoder (`all-MiniLM-L6-v2`) |
-| Infra | Docker, Docker Compose, GitHub Actions |
+| Frontend | Next.js 16 (App Router, Turbopack), TypeScript, Tailwind CSS, Meridian DS |
+| Backend | FastAPI, Python 3.11, SQLAlchemy ORM, PostgreSQL, Redis |
+| AI / Agents | LangGraph, Google Gemini 3.5 (via LiteLLM), Qdrant (vector DB) |
+| Embeddings | Local PyTorch Sentence-Transformer (`all-MiniLM-L6-v2`) |
+| Standards | RFC-4180 CSV (Anki Export), Spaced Repetition timedelta math |
+| Infra | Docker, Docker Compose, GitHub Actions CI |
 
 ---
 
 ## Architectural Decisions
 
-To understand the core design trade-offs made in this project (e.g. why we run embeddings locally on CPU, how we bypassed Gemini `thought_signature` validation errors, and why we explicitly accumulate state lists in LangGraph), please refer to the detailed **[Architectural Decision Log (DECISIONS.md)](file:///d:/Projects/Meridian-AI/DECISIONS.md)**.
+To understand the core design trade-offs made in this project (e.g. why we run embeddings locally on CPU, how we bypassed Gemini `thought_signature` validation errors, Leitner box math, and why we explicitly accumulate state lists in LangGraph), please refer to the detailed **[Architectural Decision Log (DECISIONS.md)](file:///d:/Projects/Meridian-AI/DECISIONS.md)**.
 
 ---
 
@@ -90,15 +92,14 @@ meridian/
 ├── .github/workflows/   # CI/CD pipelines
 ├── backend/
 │   ├── app/
-│   │   ├── api/        # FastAPI routes & business logic
+│   │   ├── api/        # FastAPI routers (auth, documents, RAG, chat, planner, learning)
 │   │   ├── agent/      # LangGraph state machine & tool nodes
 │   │   ├── rag/        # PyTorch embedding & recursive text splitter
-│   │   ├── models/      # SQLAlchemy model schemas
-│   │   ├── database/    # Postgres sessions & Qdrant collections
-│   │   └── core/        # Security, JWT tokens, and settings configs
-│   ├── tests/          # Pytest API checks
-│   └── migrations/     # Alembic database migrations
-├── frontend/           # Next.js App Router workspace
+│   │   ├── models/     # SQLAlchemy model schemas (User, Document, Flashcard, QuizQuestion, MindMap, StudyLog)
+│   │   ├── database/   # Postgres sessions & Qdrant collections
+│   │   └── core/       # Security, JWT tokens, and settings configs
+│   └── tests/          # Pytest API & analytics test suites
+├── frontend/           # Next.js App Router workspace (Meridian DS visual identity)
 ├── docker-compose.yml  # Multi-container orchestration config
 ├── DECISIONS.md        # Architectural Decision Log (ADL)
 └── README.md           # Getting started & platform overview
@@ -108,15 +109,18 @@ meridian/
 
 ## Roadmap
 
-Meridian AI is designed to grow from a student-focused MVP into a general-purpose personal AI OS.
+Meridian AI is designed to grow from a personal workspace into an all-in-one AI Operating System.
 
 | Version | Focus | Status |
 |---|---|---|
-| **V0.1** | Foundation, Knowledge Hub, AI Chat + Memory, local RAG | ✅ Completed |
-| **V2** | Planner Agent — scheduling, conflict detection, auto-rescheduling | 📋 Planned |
-| **V3** | Learning Agent — auto-generated flashcards, quizzes, mind maps from uploaded material | 📋 Planned |
-| **V4** | Career Agent — resume analysis, ATS scoring, skill-gap analysis | 📋 Planned |
-| **V5** | Multi-agent orchestration — agents collaborating over shared memory | 📋 Planned |
+| **V1** | Auth, Knowledge Hub, multi-format ingestion (PDF/DOCX/TXT/MD/CSV/JSON), Qdrant vector DB | ✅ Completed |
+| **V2** | Persistent Memory & LangGraph RAG Chat Agent with citations | ✅ Completed |
+| **V3** | AI Study Hub — 3D flashcards, practice quizzes, mind map concept trees | ✅ Completed |
+| **V4** | AI Schedule Planner — priority weighting & auto-conflict resolution timeline shifting | ✅ Completed |
+| **V5** | Learning Analytics — 5-stage memory retention graph, study streaks & Anki CSV export | ✅ Completed |
+| **V6** | Voice & Speech Interface — voice dictation & audio narrator text-to-speech | 📋 Planned |
+| **V7** | Multi-Document Synthesis — cross-file comparative RAG Q&A | 📋 Planned |
+| **V8** | Global Workspace Command Palette (`Ctrl + K`) & spotlight search | 📋 Planned |
 
 ---
 
