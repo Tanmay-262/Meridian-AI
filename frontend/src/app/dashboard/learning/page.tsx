@@ -302,26 +302,39 @@ export default function LearningPage() {
               </div>
             </div>
 
-            <span className="text-xs text-[#71818c] font-mono">
-              Leitner Active Recall Progress
+            <div className="text-right">
+              <span className="text-xs text-[#71818c] block font-mono">
+                Memory Retention Progress
+              </span>
+              <span className="text-[10px] text-[#45d6c5] font-mono">
+                5-Stage Spaced Repetition
+              </span>
+            </div>
+          </div>
+
+          {/* Simple Explainer Banner */}
+          <div className="p-3 rounded-xl bg-[#070b10] border border-[#1d2a3d] text-[11px] text-[#71818c] flex items-center gap-2">
+            <span className="text-sm">💡</span>
+            <span>
+              <strong className="text-[#f0f5fa]">How it works:</strong> Cards move from <span className="text-[#71818c]">Learning</span> up to <span className="text-[#45d6c5]">Mastered (Long-Term Memory)</span> each time you recall them correctly.
             </span>
           </div>
 
-          {/* 5-Box Leitner Bar Graph */}
-          <div className="grid grid-cols-5 gap-2 pt-2">
+          {/* 5 Memory Stages Bar Graph */}
+          <div className="grid grid-cols-5 gap-2 pt-1">
             {[
-              { box: 1, label: "Box 1 (New)", color: "bg-[#71818c]" },
-              { box: 2, label: "Box 2 (10m)", color: "bg-[#5b9cff]" },
-              { box: 3, label: "Box 3 (1h)", color: "bg-[#a27bff]" },
-              { box: 4, label: "Box 4 (1d)", color: "bg-[#d5a65b]" },
-              { box: 5, label: "Box 5 (Mastered)", color: "bg-[#45d6c5]" },
-            ].map(({ box, label, color }) => {
+              { box: 1, label: "Learning", sub: "Needs Practice", color: "bg-[#71818c]" },
+              { box: 2, label: "Reviewing", sub: "Fresh Memory", color: "bg-[#5b9cff]" },
+              { box: 3, label: "Retaining", sub: "Solidifying", color: "bg-[#a27bff]" },
+              { box: 4, label: "Mastering", sub: "Strong Recall", color: "bg-[#d5a65b]" },
+              { box: 5, label: "Mastered", sub: "Long-Term", color: "bg-[#45d6c5]" },
+            ].map(({ box, label, sub, color }) => {
               const count = analytics.box_distribution[box] || 0;
               const maxCount = Math.max(...Object.values(analytics.box_distribution), 1);
               const heightPct = Math.max(Math.round((count / maxCount) * 100), 15);
 
               return (
-                <div key={box} className="flex flex-col items-center gap-1.5">
+                <div key={box} className="flex flex-col items-center gap-1">
                   <div className="h-16 w-full bg-[#070b10] rounded-lg border border-[#1d2a3d] p-1 flex items-end justify-center relative group">
                     <div
                       style={{ height: `${heightPct}%` }}
@@ -331,8 +344,11 @@ export default function LearningPage() {
                       {count}
                     </span>
                   </div>
-                  <span className="text-[9px] font-mono text-[#71818c] text-center line-clamp-1">
+                  <span className="text-[10px] font-bold text-[#f0f5fa] text-center line-clamp-1">
                     {label}
+                  </span>
+                  <span className="text-[8px] font-mono text-[#71818c] text-center line-clamp-1 hidden sm:block">
+                    {sub}
                   </span>
                 </div>
               );
@@ -414,7 +430,18 @@ export default function LearningPage() {
             <div className="space-y-6 max-w-md mx-auto">
               <div className="flex items-center justify-between text-xs text-[#71818c] px-2 font-mono">
                 <span>Card {currentCardIndex + 1} of {flashcards.length}</span>
-                <span>Leitner Box: {flashcards[currentCardIndex].box}</span>
+                <span>
+                  Memory Stage:{" "}
+                  <strong className="text-[#45d6c5]">
+                    {[
+                      "Learning",
+                      "Reviewing",
+                      "Retaining",
+                      "Mastering",
+                      "Mastered",
+                    ][(flashcards[currentCardIndex].box || 1) - 1]}
+                  </strong>
+                </span>
               </div>
 
               {/* 3D Flashcard container */}
@@ -452,22 +479,22 @@ export default function LearningPage() {
                 </div>
               </div>
 
-              {/* Leitner Box Spaced Repetition Review actions */}
+              {/* Action Buttons for Card Review */}
               {isFlipped && (
                 <div className="flex gap-4">
                   <button
                     onClick={() => handleCardReview(flashcards[currentCardIndex].id, false)}
                     disabled={isReviewingId !== null}
-                    className="flex-1 py-2 text-xs font-semibold rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2.5 text-xs font-semibold rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/25 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
                   >
-                    ❌ Hard (Box 1)
+                    ❌ Need Practice
                   </button>
                   <button
                     onClick={() => handleCardReview(flashcards[currentCardIndex].id, true)}
                     disabled={isReviewingId !== null}
-                    className="flex-1 py-2 text-xs font-semibold rounded-xl bg-[#45d6c5]/10 border border-[#45d6c5]/30 text-[#45d6c5] hover:bg-[#45d6c5]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
+                    className="flex-1 py-2.5 text-xs font-semibold rounded-xl bg-[#45d6c5]/10 border border-[#45d6c5]/30 text-[#45d6c5] hover:bg-[#45d6c5]/20 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
                   >
-                    ✓ Got It! (+1 Box)
+                    ✓ Remembered (+1 Stage)
                   </button>
                 </div>
               )}
