@@ -9,11 +9,21 @@ from app.api.chat import router as chat_router
 from app.api.planner import router as planner_router
 from app.api.learning import router as learning_router
 from app.database.vector_db import init_vector_db
+from app.database.session import engine
+from app.models.base import Base
+
+# Register all SQL models for metadata table creation
+import app.models.user
+import app.models.document
+import app.models.memory
+import app.models.planner
+import app.models.learning
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Run startup actions
+    # Run startup actions: ensure database tables exist and init vector DB
+    Base.metadata.create_all(bind=engine)
     init_vector_db()
     yield
     # Run shutdown actions (none needed currently)

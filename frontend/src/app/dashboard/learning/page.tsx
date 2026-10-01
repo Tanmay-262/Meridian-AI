@@ -148,7 +148,7 @@ export default function LearningPage() {
     if (!selectedDocId) return;
     setIsExportingAnki(true);
     try {
-      const token = localStorage.getItem("meridian_token");
+      const token = localStorage.getItem("token") || localStorage.getItem("meridian_token") || "";
       const response = await fetch(`http://localhost:8000/api/v1/learning/export/anki/${selectedDocId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -219,17 +219,18 @@ export default function LearningPage() {
   };
 
   // Render Mind Map Recursive Node List
-  const renderMindMapNode = (node: any, depth = 0) => {
+  const renderMindMapNode = (node: any, depth = 0, index = 0) => {
     if (!node) return null;
+    const nodeKey = `${node.title || "concept"}-${depth}-${index}`;
     return (
-      <div key={node.title} style={{ paddingLeft: `${depth * 16}px` }} className="space-y-1">
+      <div key={nodeKey} style={{ paddingLeft: `${depth * 16}px` }} className="space-y-1">
         <div className="flex items-center gap-2 py-1">
           <span className="text-[10px] text-[#45d6c5]">❖</span>
           <span className={`text-xs ${depth === 0 ? "font-bold text-[#f0f5fa]" : "text-[#71818c]"}`}>
             {node.title}
           </span>
         </div>
-        {node.children && node.children.map((child: any) => renderMindMapNode(child, depth + 1))}
+        {node.children && node.children.map((child: any, cIdx: number) => renderMindMapNode(child, depth + 1, cIdx))}
       </div>
     );
   };
